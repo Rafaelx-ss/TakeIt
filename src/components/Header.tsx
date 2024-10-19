@@ -7,7 +7,7 @@ const Header = () => {
     return (
         <header className="bg-surface text-text p-4 shadow-md">
             <div className="container mx-auto flex justify-between items-center">
-                <h1 className="text-2x1 font-bold text-accent">Take It!</h1>
+                <h1 className="text-2xl font-bold text-accent">Take It!</h1>
                 <nav className="hidden md:flex items-center space-x-4">
                     <button className="btn-outline">Crear Evento</button>
                     <button className="btn-primary">Iniciar Sesión</button>
