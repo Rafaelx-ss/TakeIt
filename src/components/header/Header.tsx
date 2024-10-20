@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import MenuIcon from './IconoMenu';
 import NotificationIcon from './IconoNotificacion';
 import UserIcon from './IconoUsuario';
-import NavLinks from './NavLinks';
 import MobileMenu from './MobileMenu';
 
 const Header: React.FC = () => {
@@ -20,7 +19,6 @@ const Header: React.FC = () => {
                     {/* MobileMenu */}
                     <MenuIcon isOpen={isMenuOpen} toggleMenu={toggleMenu} />
                     {/* Pa Los links */}
-                    <NavLinks />
 
                     <h1 className="absolute left-1/2 transform -translate-x-1/2">
                         <a 

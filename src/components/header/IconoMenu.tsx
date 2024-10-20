@@ -9,7 +9,7 @@ interface MenuIconProps {
 const MenuIcon: React.FC<MenuIconProps> = ({ isOpen, toggleMenu }) => {
     return (
         <button
-            className="md:hidden p-2 text-white hover:text-gray-300"
+            className="p-2 text-white hover:text-gray-300"
             onClick={toggleMenu}
             aria-expanded={isOpen}
             aria-label="Toggle menu"

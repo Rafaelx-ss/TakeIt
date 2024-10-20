@@ -1,5 +1,6 @@
 import React from "react";
 
+
 interface EventCardProps {
     title: string;
     image: string;
@@ -7,9 +8,12 @@ interface EventCardProps {
     location: string;
     price: string;
     attendees: number;
-}
+} 
 
-const EventCard: React.FC<EventCardProps> = ({ title, image, date, location, price, attendees }) => {
+const EventCard = ({ event }:{event:EventCardProps}) => {
+
+//const EventCard = ({event}) => {
+
     return (
 
         //Efecto del brillo en la orilla (Linea#17)
@@ -17,12 +21,12 @@ const EventCard: React.FC<EventCardProps> = ({ title, image, date, location, pri
             <div className="absolute w-full h-full bg-[#D4AF37] blur-[100px] -left-1/2 -top-1/2"></div>
 
             <div className="absolute flex flex-col z-[1] opacity-95 rounded-xl inset-0.5 bg-[#1a1a1a] p-4">
-                <img src={image} alt={title} className="w-full h-32 object-cover mb-4 rounded-lg" />
-                <h3 className="text-xl text-primary">{title}</h3>
-                <p className="text-textlight">{location}</p>
-                <p className="text-textlight">{date}</p>
-                <p className="text-accent font-bold">{price}</p>
-                <p className="text">Asistentes: {attendees}</p>
+                <img src={event.image} alt={event.title} className="w-full h-32 object-cover mb-4 rounded-lg" />
+                <h3 className="text-xl text-primary">{event.title}</h3>
+                <p className="text-textlight">{event.location}</p>
+                <p className="text-textlight">{event.date}</p>
+                <p className="text-accent font-bold">{event.price}</p>
+                <p className="text">Asistentes: {event.attendees}</p>
                 
                 <div className="mt-auto">
                     <button

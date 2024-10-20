@@ -14,15 +14,7 @@ const App: React.FC = () => {
         <h2 className="text-3xl font-bold text-primary mb-6">Eventos Destacados</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4 sm:px-8 lg:px-16">
           {events.map(event => (
-            <EventCard
-              key={event.id}
-              title={event.title}
-              image={event.image}
-              date={event.date}
-              location={event.location}
-              price={event.price}
-              attendees={event.attendees}
-            />
+            <EventCard key={event.id} event={event}/>
           ))}
         </div>
       </div>
