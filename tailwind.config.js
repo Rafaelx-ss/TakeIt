@@ -7,13 +7,13 @@ export default {
     theme: {
       extend: {
         colors: {
-          primary: '#ffffff',    // Negro elegante
+          primary: '#ffffff',    // Negro elegante (Cambie a Blanco)
           secondary: '#2C2C2C',  // Gris oscuro
           accent: '#D4AF37',     // Dorado
           background: '#121212', // Negro profundo
           surface: '#1A1A1A',    // Negro suave
-          text: '#858687',       // Blanco
-          'text-light': '#CCCCCC', // Gris claro
+          text: '#858687',       // Blanco (Cambie a negro)
+          textlight: '#CCCCCC', // Gris claro
           success: '#4CAF50',    // Verde
           error: '#F44336',      // Rojo
         },
