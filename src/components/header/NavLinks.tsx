@@ -1,33 +1,15 @@
 import React from 'react';
+import BottonReactivo from './BotonReactivo';
 
 const NavLinks: React.FC = () => {
     return (
         <nav className="hidden md:block">
             <ul className="flex space-x-6">
                 <li>
-                    <a 
-                        href="/" 
-                        className="text-white hover:text-gray-300 transition-colors duration-200 font-medium"
-                        aria-current="page"
-                    >
-                        Inicio
-                    </a>
+                    <BottonReactivo label="Iniciar Sesión" />
                 </li>
                 <li>
-                    <a 
-                        href="/login" 
-                        className="text-white hover:text-gray-300 transition-colors duration-200 font-medium"
-                    >
-                        Inicio de sesión
-                    </a>
-                </li>
-                <li>
-                    <a 
-                        href="/profile" 
-                        className="text-white hover:text-gray-300 transition-colors duration-200 font-medium"
-                    >
-                        Perfil
-                    </a>
+                    <BottonReactivo label="Crear Evento" />
                 </li>
             </ul>
         </nav>
