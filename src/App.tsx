@@ -3,6 +3,7 @@ import Header from "./components/header/Header";
 import { events } from "./data/events"; 
 import Card from "./components/Card"; 
 import BarraGeneral from "./components/BarraBusqueda/BarraGeneral"; 
+import Footer from "./components/footer/Footer";
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
           ))}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };
