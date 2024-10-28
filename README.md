@@ -1,81 +1,36 @@
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-# 🎯 Take IT - Proyecto Web
+## Getting Started
 
-Bienvenido a **Take IT**, un proyecto web moderno que utiliza **TailwindCSS** para un diseño elegante, minimalista y completamente personalizable. 
+First, run the development server:
 
-## 🚀 Instalación
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-Sigue los siguientes pasos para instalar y configurar el proyecto:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/take-it.git
-   ```
-2. Navega a la carpeta del proyecto:
-   ```bash
-   cd take-it
-   ```
-3. Instala las dependencias necesarias utilizando **npm**:
-   ```bash
-   npm install
-   ```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 🎨 Configuración de TailwindCSS
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-Este proyecto está configurado para utilizar **TailwindCSS** con una paleta de colores personalizada y fuentes elegantes.
+## Learn More
 
-- Colores definidos: 
-  - `primary`: un elegante negro
-  - `secondary`: gris oscuro
-  - `accent`: dorado para resaltar
-  - `background`: negro profundo para fondos
-  - `surface`: negro suave para tarjetas y superficies
-  - `text`: blanco, junto con un gris claro `text-light`
-  - Colores para éxito (`success`: verde) y error (`error`: rojo) también están incluidos.
+To learn more about Next.js, take a look at the following resources:
 
-### 🖋 Fuentes
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-El proyecto utiliza la fuente **Poppins** en diferentes grosores para un aspecto limpio y profesional.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## 🌐 Uso de TailwindCSS en el proyecto
+## Deploy on Vercel
 
-Ya que las configuraciones de **Tailwind** están listas, puedes comenzar a usar las clases predefinidas en tus componentes HTML o JSX. Aquí te damos un resumen de algunas clases personalizadas que hemos creado para que empieces fácilmente:
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- **Botones**: 
-  - `.btn-primary` para botones con el color dorado (accent).
-  - `.btn-secondary` para botones con un estilo oscuro.
-  - `.btn-outline` para botones con borde dorado y estilo más ligero.
-- **Tarjetas**:
-  - Usa la clase `.card` para mostrar contenido dentro de tarjetas elegantes con sombra y transiciones.
-- **Inputs**:
-  - Los campos de entrada utilizan la clase `.input`, ya están diseñados para ajustarse al estilo general de la interfaz.
-
-## ⚙️ Configuración de Tailwind
-
-El archivo `tailwind.config.js` ya está configurado para analizar todos los archivos dentro de las rutas:
-- `./index.html`
-- `./src/**/*.{js,ts,jsx,tsx}`
-
-Además, hemos extendido el tema con colores y fuentes que se ajustan a las necesidades del proyecto.
-
-## 🛠 Scripts útiles
-
-- Inicia el servidor de desarrollo:
-  ```bash
-  npm run dev
-  ```
-- Construye el proyecto para producción:
-  ```bash
-  npm run build
-  ```
-
-¡Listo! Ahora puedes comenzar a personalizar tu proyecto y hacer que **Take IT** sea aún más increíble. 
-
-## 👨‍💻 Autor
-
-Desarrollado por 
-- [Rafael Solis](https://github.com/Rafaelx-ss).
-- [Kevin Padilla]()
-- [Jose Pol Ku]()
-- [Hector Mendoza]()
-- [Jose Martinez]()
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
