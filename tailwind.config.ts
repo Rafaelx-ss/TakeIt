@@ -20,6 +20,12 @@ const config: Config = {
                 sm: 'calc(var(--radius) - 4px)',
             },
             colors: {
+                dorado: 'hsl(var(--dorado))',
+                black: 'hsl(var(--black))',
+                text: 'hsl(var(--text))',
+                textLight: 'hsl(var(--text-light))',
+                success: 'hsl(var(--success))',
+                error: 'hsl(var(--error))',
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
                 card: {
