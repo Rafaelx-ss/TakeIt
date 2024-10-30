@@ -11,12 +11,12 @@ model categorias {
   categoriaID          Int       @id @default(autoincrement())
   nombreCategoria      String    @db.VarChar(255)
   descripcionCategoria String    @db.VarChar(255)
-  activoCategoria      Boolean   @default(dbgenerated("(b'1')")) @db.Bit(1)
-  estadoCategoria      Boolean   @default(dbgenerated("(b'1')")) @db.Bit(1)
-  createdAt            DateTime  @default(now()) @db.Timestamp(0)
-  updatedAt            DateTime? @default(now()) @db.Timestamp(0)
-  createdById          Int
-  updatedById          Int?
+  createdAt            Int       @default(1)
+  updatedAt            Int?      @default(1)
+  createdById          DateTime  @default(now()) @db.Timestamp(0)
+  updatedById          DateTime? @default(now()) @db.Timestamp(0)
+  activoCategoria      Boolean   @db.Bit(1)
+  estadoCategoria      Boolean   @db.Bit(1)
   eventos              eventos[]
 }
 
@@ -42,8 +42,8 @@ model estados {
   estadoID            Int                   @id @default(autoincrement())
   nombreEstado        String                @db.VarChar(100)
   paisID              Int
-  activoEstado        Boolean               @default(dbgenerated("(b'1')")) @db.Bit(1)
-  estadoEstado        Boolean               @default(dbgenerated("(b'1')")) @db.Bit(1)
+  activoEstado        Boolean               @db.Bit(1)
+  estadoEstado        Boolean               @db.Bit(1)
   direccionesusuarios direccionesusuarios[]
   paises              paises                @relation(fields: [paisID], references: [paisID], onUpdate: Restrict, map: "estados_ibfk_1")
 
@@ -87,8 +87,8 @@ model eventos {
 model paises {
   paisID     Int       @id @default(autoincrement())
   nombrePais String    @db.VarChar(100)
-  activoPais Boolean   @default(dbgenerated("(b'1')")) @db.Bit(1)
-  estadoPais Boolean   @default(dbgenerated("(b'1')")) @db.Bit(1)
+  activoPais Boolean   @db.Bit(1)
+  estadoPais Boolean   @db.Bit(1)
   estados    estados[]
 }
 
@@ -99,14 +99,8 @@ model patrocinadores {
   representantePatrocinador       String    @db.VarChar(255)
   rfcPatrocinador                 String    @db.VarChar(255)
   correoPatrocinador              String    @db.VarChar(255)
-  telefonoPatrocinador            String    @db.VarChar(255)
+  telefonoPatrocinador            Bytes     @db.VarBinary(255)
   numeroRepresentantePatrocinador String    @db.VarChar(255)
-  createdAt                       DateTime  @default(now()) @db.Timestamp(0)
-  createdById                     Int
-  updatedAt                       DateTime? @default(now()) @db.Timestamp(0)
-  updatedById                     Int?
-  activoPatrocinador              Boolean   @default(dbgenerated("(b'1')")) @db.Bit(1)
-  estadoPatrocinador              Boolean   @default(dbgenerated("(b'1')")) @db.Bit(1)
   eventos                         eventos[]
 }
 
@@ -114,12 +108,12 @@ model subcategorias {
   subcategoriaID          Int       @id @default(autoincrement())
   nombreSubcategoria      String    @db.VarChar(255)
   descripcionSubcategoria String    @db.VarChar(255)
+  createdAt               Int
+  updatedAt               Int?
+  createdById             DateTime  @default(now()) @db.Timestamp(0)
+  updatedById             DateTime? @default(now()) @db.Timestamp(0)
   activoSubcategoria      Boolean   @default(dbgenerated("(b'1')")) @db.Bit(1)
   estadoSubcategoria      Boolean   @default(dbgenerated("(b'1')")) @db.Bit(1)
-  createdAt               DateTime  @default(now()) @db.Timestamp(0)
-  updatedAt               DateTime? @default(now()) @db.Timestamp(0)
-  createdById             Int
-  updatedById             Int?
   eventos                 eventos[]
 }
 
