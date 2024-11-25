@@ -65,35 +65,77 @@ export function RegisterForm() {
         },
     });
 
+    // Se usaba Prisma, se migra a laravel.
+    // async function onSubmit(data: RegisterForm) {
+    //     setIsLoading(true);
+    //     try {
+    //     const response = await fetch('/api/auth/register', {
+    //         method: 'POST',
+    //         headers: {
+    //         'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(data),
+    //     });
+
+    //     if (!response.ok) {
+    //         const error = await response.json();
+    //         throw new Error(error.message);
+    //     }
+
+    //     toast({
+    //         title: 'Cuenta creada exitosamente',
+    //         description: 'Ahora puedes iniciar sesión',
+    //     });
+    //     router.push('/login');
+    //     } catch (error) {
+    //     toast({
+    //         variant: 'destructive',
+    //         title: 'Error al crear la cuenta',
+    //         description: error instanceof Error ? error.message : 'Ocurrió un error',
+    //     });
+    //     } finally {
+    //     setIsLoading(false);
+    //     }
+    // }
+
     async function onSubmit(data: RegisterForm) {
         setIsLoading(true);
         try {
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message);
-        }
-
-        toast({
-            title: 'Cuenta creada exitosamente',
-            description: 'Ahora puedes iniciar sesión',
-        });
-        router.push('/login');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombre: data.nombreUsuario,
+                    usuario: data.usuario,
+                    email: data.correoUsuario,
+                    password: data.contrasena,
+                    telefono: data.telefonoUsuario,
+                    fecha_nacimiento: data.fechaNacimientoUsuario,
+                    genero: data.generoUsuario,
+                    rol: data.rolUsuario,
+                }),
+            });
+    
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Error al registrar');
+            }
+    
+            toast({
+                title: 'Cuenta creada exitosamente',
+                description: 'Ahora puedes iniciar sesión',
+            });
+            router.push('/login');
         } catch (error) {
-        toast({
-            variant: 'destructive',
-            title: 'Error al crear la cuenta',
-            description: error instanceof Error ? error.message : 'Ocurrió un error',
-        });
+            toast({
+                variant: 'destructive',
+                title: 'Error al crear la cuenta',
+                description: error instanceof Error ? error.message : 'Ocurrió un error',
+            });
         } finally {
-        setIsLoading(false);
+            setIsLoading(false);
         }
     }
 
@@ -121,7 +163,7 @@ export function RegisterForm() {
                     <FormItem className="w-full">
                         <FormLabel>Nombre de Usuario</FormLabel>
                         <FormControl>
-                        <Input placeholder="Usuario único" {...field} />
+                        <Input placeholder="Usuario único" autoComplete='username' {...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -136,7 +178,7 @@ export function RegisterForm() {
                     <FormItem>
                     <FormLabel>Correo Electrónico</FormLabel>
                     <FormControl>
-                        <Input type="email" placeholder="correo@ejemplo.com" {...field} />
+                        <Input type="email" placeholder="correo@ejemplo.com" autoComplete='email' {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -151,7 +193,7 @@ export function RegisterForm() {
                     <FormItem className="w-full">
                         <FormLabel>Contraseña</FormLabel>
                         <FormControl>
-                        <Input type="password" {...field} />
+                        <Input type="password" autoComplete='new-password' {...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -164,7 +206,7 @@ export function RegisterForm() {
                     <FormItem className="w-full">
                         <FormLabel>Repite la Contraseña</FormLabel>
                         <FormControl>
-                        <Input type="password" {...field} />
+                        <Input type="password" autoComplete='new-password' {...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
