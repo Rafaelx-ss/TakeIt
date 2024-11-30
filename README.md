@@ -1,6 +1,48 @@
-# 🎯 Take IT - Proyecto Web
+# 🎯 Take IT - WEB
 
-Bienvenido a **Take IT**, un proyecto web moderno que utiliza **TailwindCSS** para un diseño elegante, minimalista y completamente personalizable. 
+Bienvenido a **Take IT**, una aplicación que permite la **creación**, promoción e inscripción de eventos en diversas áreas como **deportes**, **música** y **videojuegos**. La plataforma facilita la gestión completa de los eventos, incluyendo módulos para inscripción de participantes, seguimiento en tiempo real y difusión de resultados. Con un enfoque en la accesibilidad y conectividad, **Take It!** optimiza la organización de eventos y potencia la interacción entre los usuarios y los organizadores. 
+ 
+
+<!-- Badges -->
+<p style="text-align: center;">
+  <a href="https://github.com/Rafaelx-ss/TakeIt/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/Rafaelx-ss/TakeIt?color=blueviolet" alt="contributors" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/Rafaelx-ss/TakeIt?color=green" alt="last update" />
+  </a>
+  <a href="https://github.com/Rafaelx-ss/TakeIt/stargazers">
+    <img src="https://img.shields.io/github/stars/Rafaelx-ss/TakeIt?color=yellow" alt="stars" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="license" />
+  </a>
+  <a href="https://github.com/Rafaelx-ss/TakeIt/commits/main/">
+    <img src="https://img.shields.io/github/commit-activity/t/Rafaelx-ss/TakeIt?color=ff1a15" alt="commit activity" />
+  </a>
+  <a href="https://nextjs.org/">
+    <img src="https://img.shields.io/badge/Framework-Next.js-black" alt="Next.js" />
+  </a>
+  <a href="https://www.typescriptlang.org/">
+    <img src="https://img.shields.io/badge/Code-TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
+  </a>
+  <a href="https://tailwindcss.com/">
+    <img src="https://img.shields.io/badge/CSS-Tailwind%20CSS-teal" alt="Tailwind CSS" />
+  </a>
+  <a href="https://laravel.com/">
+    <img src="https://img.shields.io/badge/Backend-Laravel-red" alt="Laravel" />
+  </a>
+  <a href="https://www.mysql.com/">
+    <img src="https://img.shields.io/badge/Database-MySQL-blue" alt="MySQL" />
+  </a>
+</p>
+
+### Top Contributors:
+
+<a href="https://github.com/Rafaelx-ss/TakeIt/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Rafaelx-ss/TakeIt" alt="Top Contributors" />
+</a>
+
 
 ## 🚀 Instalación
 
@@ -70,11 +112,44 @@ Además, hemos extendido el tema con colores y fuentes que se ajustan a las nece
 
 ¡Listo! Ahora puedes comenzar a personalizar tu proyecto y hacer que **Take IT** sea aún más increíble. 
 
-## 👨‍💻 Autor
+## 👨‍💻 Autores
 
-Desarrollado por 
-- [Rafael Solis](https://github.com/Rafaelx-ss).
-- [Kevin Padilla]()
-- [Jose Pol Ku]()
-- [Hector Mendoza]()
-- [Jose Martinez]()
+Desarrollado con 💻 por:
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Rafaelx-ss">
+        <img src="https://avatars.githubusercontent.com/u/147651823?v=4" width="100px;" alt="Rafael Solis"/>
+        <br /><sub><b>Rafael Solis</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/KevDom0317">
+        <img src="https://avatars.githubusercontent.com/u/156467209?v=4" width="100px;" alt="Kevin Padilla"/>
+        <br /><sub><b>Kevin Padilla</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/JosePK0">
+        <img src="https://avatars.githubusercontent.com/u/157852544?v=4" width="100px;" alt="Jose Pol Ku"/>
+        <br /><sub><b>Jose Pol Ku</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/gogphojoh">
+        <img src="https://avatars.githubusercontent.com/u/149612930?v=4" width="100px;" alt="Hector Mendoza"/>
+        <br /><sub><b>Hector Mendoza</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Arielo16">
+        <img src="https://avatars.githubusercontent.com/u/108147166?v=4" width="100px;" alt="Jose Ariel Martinez"/>
+        <br /><sub><b>Jose Ariel Martinez</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
