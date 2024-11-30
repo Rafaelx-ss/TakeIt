@@ -1,7 +1,8 @@
 # 🎯 Take IT - WEB
 
 Bienvenido a **Take IT**, una aplicación que permite la **creación**, promoción e inscripción de eventos en diversas áreas como **deportes**, **música** y **videojuegos**. La plataforma facilita la gestión completa de los eventos, incluyendo módulos para inscripción de participantes, seguimiento en tiempo real y difusión de resultados. Con un enfoque en la accesibilidad y conectividad, **Take It!** optimiza la organización de eventos y potencia la interacción entre los usuarios y los organizadores. 
- 
+
+---
 
 <!-- Badges -->
 [![Contributors][contributors-shield]][contributors-url]
@@ -15,12 +16,15 @@ Bienvenido a **Take IT**, una aplicación que permite la **creación**, promoci�
 [![Laravel][laravel-shield]][laravel-url]
 [![MySQL][mysql-shield]][mysql-url]
 
+---
+
 ### Top Contributors:
 
 <a href="https://github.com/Rafaelx-ss/TakeIt/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Rafaelx-ss/TakeIt" alt="Top Contributors" />
 </a>
 
+---
 
 ## 🚀 Instalación
 
@@ -38,6 +42,8 @@ Sigue los siguientes pasos para instalar y configurar el proyecto:
    ```bash
    npm install
    ```
+   
+---
 
 ## 🎨 Configuración de TailwindCSS
 
@@ -52,9 +58,13 @@ Este proyecto está configurado para utilizar **TailwindCSS** con una paleta de 
   - `text`: blanco, junto con un gris claro `text-light`
   - Colores para éxito (`success`: verde) y error (`error`: rojo) también están incluidos.
 
+---
+
 ### 🖋 Fuentes
 
 El proyecto utiliza la fuente **Poppins** en diferentes grosores para un aspecto limpio y profesional.
+
+---
 
 ## 🌐 Uso de TailwindCSS en el proyecto
 
@@ -68,6 +78,8 @@ Ya que las configuraciones de **Tailwind** están listas, puedes comenzar a usar
   - Usa la clase `.card` para mostrar contenido dentro de tarjetas elegantes con sombra y transiciones.
 - **Inputs**:
   - Los campos de entrada utilizan la clase `.input`, ya están diseñados para ajustarse al estilo general de la interfaz.
+ 
+---
 
 ## ⚙️ Configuración de Tailwind
 
@@ -76,6 +88,8 @@ El archivo `tailwind.config.js` ya está configurado para analizar todos los arc
 - `./src/**/*.{js,ts,jsx,tsx}`
 
 Además, hemos extendido el tema con colores y fuentes que se ajustan a las necesidades del proyecto.
+
+---
 
 ## 🛠 Scripts útiles
 
@@ -90,10 +104,13 @@ Además, hemos extendido el tema con colores y fuentes que se ajustan a las nece
 
 ¡Listo! Ahora puedes comenzar a personalizar tu proyecto y hacer que **Take IT** sea aún más increíble. 
 
+---
 
 ## 👨‍💻 Autores
 
 Desarrollado con 💻 por:
+
+---
 
 <table style="border-collapse: collapse; width: 100%; text-align: center;">
   <tr style="border: none;">
@@ -129,8 +146,6 @@ Desarrollado con 💻 por:
     </td>
   </tr>
 </table>
-
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
