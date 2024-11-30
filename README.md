@@ -90,9 +90,6 @@ Además, hemos extendido el tema con colores y fuentes que se ajustan a las nece
 
 ¡Listo! Ahora puedes comenzar a personalizar tu proyecto y hacer que **Take IT** sea aún más increíble. 
 
-## 👨‍💻 Autores
-
-Desarrollado con 💻 por:
 
 ## 👨‍💻 Autores
 
@@ -138,32 +135,32 @@ Desarrollado con 💻 por:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-[contributors-shield]: https://img.shields.io/github/contributors/Rafaelx-ss/TakeIt?color=blueviolet&style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/Rafaelx-ss/TakeIt?color=blueviolet&style=for-the-badge&logo=github
 [contributors-url]: https://github.com/Rafaelx-ss/TakeIt/graphs/contributors
 
-[last-commit-shield]: https://img.shields.io/github/last-commit/Rafaelx-ss/TakeIt?color=green&style=for-the-badge
+[last-commit-shield]: https://img.shields.io/github/last-commit/Rafaelx-ss/TakeIt?color=green&style=for-the-badge&logo=git
 [last-commit-url]: https://github.com/Rafaelx-ss/TakeIt
 
-[stars-shield]: https://img.shields.io/github/stars/Rafaelx-ss/TakeIt?color=yellow&style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/Rafaelx-ss/TakeIt?color=yellow&style=for-the-badge&logo=starship
 [stars-url]: https://github.com/Rafaelx-ss/TakeIt/stargazers
 
-[license-shield]: https://img.shields.io/badge/license-MIT-orange.svg?style=for-the-badge
-[license-url]: https://github.com/Rafaelx-ss/TakeIt/blob/main/LICENSE
+[license-shield]: https://img.shields.io/badge/license-MIT-orange.svg?style=for-the-badge&logo=open-source-initiative
+[license-url]: #
 
-[commit-activity-shield]: https://img.shields.io/github/commit-activity/t/Rafaelx-ss/TakeIt?color=ff1a15&style=for-the-badge
+[commit-activity-shield]: https://img.shields.io/github/commit-activity/t/Rafaelx-ss/TakeIt?color=ff1a15&style=for-the-badge&logo=githubactions
 [commit-activity-url]: https://github.com/Rafaelx-ss/TakeIt/commits/main
 
-[framework-shield]: https://img.shields.io/badge/Framework-Next.js-black?style=for-the-badge
+[framework-shield]: https://img.shields.io/badge/Framework-Next.js-black?style=for-the-badge&logo=next.js
 [framework-url]: https://nextjs.org/
 
 [typescript-shield]: https://img.shields.io/badge/Code-TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge
 [typescript-url]: https://www.typescriptlang.org/
 
-[tailwind-shield]: https://img.shields.io/badge/CSS-Tailwind%20CSS-teal?style=for-the-badge
+[tailwind-shield]: https://img.shields.io/badge/CSS-Tailwind%20CSS-teal?style=for-the-badge&logo=tailwindcss
 [tailwind-url]: https://tailwindcss.com/
 
-[laravel-shield]: https://img.shields.io/badge/Backend-Laravel-red?style=for-the-badge
+[laravel-shield]: https://img.shields.io/badge/Backend-Laravel-red?style=for-the-badge&logo=laravel
 [laravel-url]: https://laravel.com/
 
-[mysql-shield]: https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge
+[mysql-shield]: https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge&logo=mysql
 [mysql-url]: https://www.mysql.com/
