@@ -4,38 +4,16 @@ Bienvenido a **Take IT**, una aplicación que permite la **creación**, promoci�
  
 
 <!-- Badges -->
-<p style="text-align: center;">
-  <a href="https://github.com/Rafaelx-ss/TakeIt/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/Rafaelx-ss/TakeIt?color=blueviolet" alt="contributors" />
-  </a>
-  <a href="">
-    <img src="https://img.shields.io/github/last-commit/Rafaelx-ss/TakeIt?color=green" alt="last update" />
-  </a>
-  <a href="https://github.com/Rafaelx-ss/TakeIt/stargazers">
-    <img src="https://img.shields.io/github/stars/Rafaelx-ss/TakeIt?color=yellow" alt="stars" />
-  </a>
-  <a href="">
-    <img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="license" />
-  </a>
-  <a href="https://github.com/Rafaelx-ss/TakeIt/commits/main/">
-    <img src="https://img.shields.io/github/commit-activity/t/Rafaelx-ss/TakeIt?color=ff1a15" alt="commit activity" />
-  </a>
-  <a href="https://nextjs.org/">
-    <img src="https://img.shields.io/badge/Framework-Next.js-black" alt="Next.js" />
-  </a>
-  <a href="https://www.typescriptlang.org/">
-    <img src="https://img.shields.io/badge/Code-TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
-  </a>
-  <a href="https://tailwindcss.com/">
-    <img src="https://img.shields.io/badge/CSS-Tailwind%20CSS-teal" alt="Tailwind CSS" />
-  </a>
-  <a href="https://laravel.com/">
-    <img src="https://img.shields.io/badge/Backend-Laravel-red" alt="Laravel" />
-  </a>
-  <a href="https://www.mysql.com/">
-    <img src="https://img.shields.io/badge/Database-MySQL-blue" alt="MySQL" />
-  </a>
-</p>
+[![Contributors][contributors-shield]][contributors-url]
+[![Last Commit][last-commit-shield]][last-commit-url]
+[![Stars][stars-shield]][stars-url]
+[![License][license-shield]][license-url]
+[![Commit Activity][commit-activity-shield]][commit-activity-url]
+[![Framework][framework-shield]][framework-url]
+[![TypeScript][typescript-shield]][typescript-url]
+[![TailwindCSS][tailwind-shield]][tailwind-url]
+[![Laravel][laravel-shield]][laravel-url]
+[![MySQL][mysql-shield]][mysql-url]
 
 ### Top Contributors:
 
@@ -116,33 +94,37 @@ Además, hemos extendido el tema con colores y fuentes que se ajustan a las nece
 
 Desarrollado con 💻 por:
 
-<table>
-  <tr>
-    <td align="center">
+## 👨‍💻 Autores
+
+Desarrollado con 💻 por:
+
+<table style="border-collapse: collapse; width: 100%; text-align: center;">
+  <tr style="border: none;">
+    <td align="center" style="border: none;">
       <a href="https://github.com/Rafaelx-ss">
         <img src="https://avatars.githubusercontent.com/u/147651823?v=4" width="100px;" alt="Rafael Solis"/>
         <br /><sub><b>Rafael Solis</b></sub>
       </a>
     </td>
-    <td align="center">
+    <td align="center" style="border: none;">
       <a href="https://github.com/KevDom0317">
         <img src="https://avatars.githubusercontent.com/u/156467209?v=4" width="100px;" alt="Kevin Padilla"/>
         <br /><sub><b>Kevin Padilla</b></sub>
       </a>
     </td>
-    <td align="center">
+    <td align="center" style="border: none;">
       <a href="https://github.com/JosePK0">
         <img src="https://avatars.githubusercontent.com/u/157852544?v=4" width="100px;" alt="Jose Pol Ku"/>
         <br /><sub><b>Jose Pol Ku</b></sub>
       </a>
     </td>
-    <td align="center">
+    <td align="center" style="border: none;">
       <a href="https://github.com/gogphojoh">
         <img src="https://avatars.githubusercontent.com/u/149612930?v=4" width="100px;" alt="Hector Mendoza"/>
         <br /><sub><b>Hector Mendoza</b></sub>
       </a>
     </td>
-    <td align="center">
+    <td align="center" style="border: none;">
       <a href="https://github.com/Arielo16">
         <img src="https://avatars.githubusercontent.com/u/108147166?v=4" width="100px;" alt="Jose Ariel Martinez"/>
         <br /><sub><b>Jose Ariel Martinez</b></sub>
@@ -152,4 +134,36 @@ Desarrollado con 💻 por:
 </table>
 
 
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+[contributors-shield]: https://img.shields.io/github/contributors/Rafaelx-ss/TakeIt?color=blueviolet&style=for-the-badge
+[contributors-url]: https://github.com/Rafaelx-ss/TakeIt/graphs/contributors
+
+[last-commit-shield]: https://img.shields.io/github/last-commit/Rafaelx-ss/TakeIt?color=green&style=for-the-badge
+[last-commit-url]: https://github.com/Rafaelx-ss/TakeIt
+
+[stars-shield]: https://img.shields.io/github/stars/Rafaelx-ss/TakeIt?color=yellow&style=for-the-badge
+[stars-url]: https://github.com/Rafaelx-ss/TakeIt/stargazers
+
+[license-shield]: https://img.shields.io/badge/license-MIT-orange.svg?style=for-the-badge
+[license-url]: https://github.com/Rafaelx-ss/TakeIt/blob/main/LICENSE
+
+[commit-activity-shield]: https://img.shields.io/github/commit-activity/t/Rafaelx-ss/TakeIt?color=ff1a15&style=for-the-badge
+[commit-activity-url]: https://github.com/Rafaelx-ss/TakeIt/commits/main
+
+[framework-shield]: https://img.shields.io/badge/Framework-Next.js-black?style=for-the-badge
+[framework-url]: https://nextjs.org/
+
+[typescript-shield]: https://img.shields.io/badge/Code-TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge
+[typescript-url]: https://www.typescriptlang.org/
+
+[tailwind-shield]: https://img.shields.io/badge/CSS-Tailwind%20CSS-teal?style=for-the-badge
+[tailwind-url]: https://tailwindcss.com/
+
+[laravel-shield]: https://img.shields.io/badge/Backend-Laravel-red?style=for-the-badge
+[laravel-url]: https://laravel.com/
+
+[mysql-shield]: https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge
+[mysql-url]: https://www.mysql.com/
