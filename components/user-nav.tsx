@@ -1,7 +1,6 @@
 'use client';
 
 import { LogOut, User, Calendar } from 'lucide-react';
-import { useSession, signOut } from 'next-auth/react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,16 +11,23 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
+import { useAuth } from '@/app/context/auth';
 
 export function UserNav() {
-  const { data: session } = useSession();
+  const { auth, logout } = useAuth();
+  // const usuario = auth.usuario;
+
+  // console.log("AUT::::", auth);
+  // console.log("TOKEN:::::", auth.token);
+  // console.log("USUARIO:::::", auth.usuario);
+  // console.log("Nombre:::::", usuario?.nombreUsuario);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="h-8 w-8 cursor-pointer">
           <AvatarFallback>
-            {session?.user?.name?.charAt(0).toUpperCase()}
+            { 'U'}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -43,7 +49,7 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer flex gap-2"
-          onClick={() => signOut()}
+          onClick={() => logout()}
         >
           <LogOut className="h-4 w-4" />
           <span>Cerrar Sesión</span>

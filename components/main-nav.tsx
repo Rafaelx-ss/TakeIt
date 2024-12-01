@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { useSession } from 'next-auth/react';
 import { UserNav } from '@/components/user-nav';
+import { useAuth } from '@/app/context/auth';
 
 export function MainNav() {
+  const { auth, logout } = useAuth();
   const pathname = usePathname();
-  const { data: session } = useSession();
 
   return (
     <header className="border-b">
@@ -37,7 +37,7 @@ export function MainNav() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          {session ? (
+          {auth.token ? (
             <UserNav />
           ) : (
             <>

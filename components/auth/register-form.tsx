@@ -30,15 +30,15 @@ const registerSchema = z
     .object({
         nombreUsuario: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
         usuario: z.string().min(4, 'El nombre de usuario debe tener al menos 4 caracteres'),
-        correoUsuario: z.string().email('Correo electrónico inválido'),
-        contrasena: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
+        email: z.string().email('Correo electrónico inválido'),
+        password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
         confirmPassword: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
         telefonoUsuario: z.string().optional(),
         fechaNacimientoUsuario: z.string().optional(),
         generoUsuario: z.enum(['MASCULINO', 'FEMENINO', 'OTRO']).optional(),
         rolUsuario: z.enum(['participante', 'organizador']),
     })
-    .refine((data) => data.contrasena === data.confirmPassword, {
+    .refine((data) => data.password === data.confirmPassword, {
         message: 'Las contraseñas no coinciden',
         path: ['confirmPassword'],
     });
@@ -55,8 +55,8 @@ export function RegisterForm() {
         defaultValues: {
         nombreUsuario: '',
         usuario: '',
-        correoUsuario: '',
-        contrasena: '',
+        email: '',
+        password: '',
         confirmPassword: '',
         telefonoUsuario: '',
         fechaNacimientoUsuario: '',
@@ -65,56 +65,23 @@ export function RegisterForm() {
         },
     });
 
-    // Se usaba Prisma, se migra a laravel.
-    // async function onSubmit(data: RegisterForm) {
-    //     setIsLoading(true);
-    //     try {
-    //     const response = await fetch('/api/auth/register', {
-    //         method: 'POST',
-    //         headers: {
-    //         'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(data),
-    //     });
-
-    //     if (!response.ok) {
-    //         const error = await response.json();
-    //         throw new Error(error.message);
-    //     }
-
-    //     toast({
-    //         title: 'Cuenta creada exitosamente',
-    //         description: 'Ahora puedes iniciar sesión',
-    //     });
-    //     router.push('/login');
-    //     } catch (error) {
-    //     toast({
-    //         variant: 'destructive',
-    //         title: 'Error al crear la cuenta',
-    //         description: error instanceof Error ? error.message : 'Ocurrió un error',
-    //     });
-    //     } finally {
-    //     setIsLoading(false);
-    //     }
-    // }
-
     async function onSubmit(data: RegisterForm) {
         setIsLoading(true);
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, { 
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    nombre: data.nombreUsuario,
+                    nombreUsuario: data.nombreUsuario,
                     usuario: data.usuario,
-                    email: data.correoUsuario,
-                    password: data.contrasena,
-                    telefono: data.telefonoUsuario,
-                    fecha_nacimiento: data.fechaNacimientoUsuario,
-                    genero: data.generoUsuario,
-                    rol: data.rolUsuario,
+                    email: data.email,
+                    password: data.password,
+                    telefonoUsuario: data.telefonoUsuario,
+                    fechaNacimientoUsuario: data.fechaNacimientoUsuario,
+                    generoUsuario: data.generoUsuario,
+                    rolUsuario: data.rolUsuario
                 }),
             });
     
@@ -173,7 +140,7 @@ export function RegisterForm() {
                 
                 <FormField
                 control={form.control}
-                name="correoUsuario"
+                name="email"
                 render={({ field }) => (
                     <FormItem>
                     <FormLabel>Correo Electrónico</FormLabel>
@@ -188,7 +155,7 @@ export function RegisterForm() {
                 <div className="flex gap-4">
                 <FormField
                     control={form.control}
-                    name="contrasena"
+                    name="password"
                     render={({ field }) => (
                     <FormItem className="w-full">
                         <FormLabel>Contraseña</FormLabel>

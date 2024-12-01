@@ -146,8 +146,8 @@ CREATE TABLE `usuarios` (
     `usuarioID` INTEGER NOT NULL AUTO_INCREMENT,
     `nombreUsuario` VARCHAR(250) NOT NULL,
     `usuario` VARCHAR(250) NOT NULL,
-    `correoUsuario` VARCHAR(250) NOT NULL,
-    `contrasena` VARCHAR(400) NOT NULL,
+    `email` VARCHAR(250) NOT NULL,
+    `password` VARCHAR(400) NOT NULL,
     `rolUsuario` VARCHAR(250) NOT NULL,
     `telefonoUsuario` VARCHAR(250) NOT NULL,
     `fechaNacimientoUsuario` VARCHAR(250) NULL,
@@ -158,7 +158,7 @@ CREATE TABLE `usuarios` (
     `estadoUsuario` BIT(1) NOT NULL DEFAULT (b'1'),
 
     UNIQUE INDEX `usuario`(`usuario`),
-    UNIQUE INDEX `correoUsuario`(`correoUsuario`),
+    UNIQUE INDEX `email`(`email`),
     PRIMARY KEY (`usuarioID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
