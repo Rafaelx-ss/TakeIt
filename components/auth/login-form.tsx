@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
-
+import { useAuth } from '@/app/context/auth';
 
 const loginSchema = z.object({
   email: z.string().email('Correo electrónico inválido'),
@@ -32,6 +32,20 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { auth, login } = useAuth();
+
+  // Manejar redirección si el usuario ya está logueado
+  useEffect(() => {
+    if (auth.token) {
+      toast({
+        variant: 'alert',
+        title: 'Hola',
+        description: 'Ya has iniciado sesión',
+      });
+      router.push('/'); // Redirige al usuario
+    }
+  }, [auth.token, router, toast]); // Se ejecuta solo si auth.token cambia
+
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -64,15 +78,21 @@ export function LoginForm() {
 
         Cookies.set('authToken', responseData.data.token, { expires: 1, sameSite: 'strict'});  // <-- Guardar token en cookie
 
+        // console.log("datos del usuario::::", responseData.data.user);
+
+        login(responseData.data.token, responseData.data.user);
+
 
         toast({
           variant: 'success',
           title: 'Bienvenido',
           description: 'Iniciaste sesión correctamente',
         });
+        
         router.refresh();
         router.push('/');
-    } catch (error) {
+    
+      } catch (error) {
         toast({
             variant: 'destructive',
             title: 'Error al iniciar sesión',
@@ -95,6 +115,7 @@ export function LoginForm() {
               <FormControl>
                 <Input
                   type="email"
+                  autoComplete="email"
                   placeholder="correo@ejemplo.com"
                   {...field}
                 />
@@ -110,7 +131,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Contraseña</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <Input type="password" {...field} autoComplete="current-password" />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -7,8 +7,10 @@ import { UserNav } from '@/components/user-nav';
 import { useAuth } from '@/app/context/auth';
 
 export function MainNav() {
-  const { auth, logout } = useAuth();
+  const { auth, isLoading  } = useAuth();
   const pathname = usePathname();
+
+  // console.log(auth); 
 
   return (
     <header className="border-b">
@@ -37,7 +39,9 @@ export function MainNav() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          {auth.token ? (
+          {isLoading ? (
+            <div className="h-8 w-8 bg-muted animate-pulse rounded-full"></div>
+          ) : auth.token ? (
             <UserNav />
           ) : (
             <>

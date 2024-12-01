@@ -69,6 +69,26 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
+        },
+        info: {
+          DEFAULT: 'hsl(var(--info))',
+          foreground: 'hsl(var(--info-foreground))',
+        },
+        alert: {
+          DEFAULT: 'hsl(var(--alert))',
+          foreground: 'hsl(var(--alert-foreground))',
+        },
+        notice: {
+          DEFAULT: 'hsl(var(--notice))',
+          foreground: 'hsl(var(--notice-foreground))',
+        },
+        notification: {
+          DEFAULT: 'hsl(var(--notification))',
+          foreground: 'hsl(var(--notification-foreground))',
+        },
       },
       keyframes: {
         'accordion-down': {

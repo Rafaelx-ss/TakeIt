@@ -15,11 +15,11 @@ import { useAuth } from '@/app/context/auth';
 
 export function UserNav() {
   const { auth, logout } = useAuth();
-  // const usuario = auth.usuario;
+  const usuario = auth.user;
 
   // console.log("AUT::::", auth);
   // console.log("TOKEN:::::", auth.token);
-  // console.log("USUARIO:::::", auth.usuario);
+  // console.log("USUARIO:::::", usuario);
   // console.log("Nombre:::::", usuario?.nombreUsuario);
 
   return (
@@ -27,7 +27,7 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Avatar className="h-8 w-8 cursor-pointer">
           <AvatarFallback>
-            { 'U'}
+            {usuario.nombreUsuario ? usuario.nombreUsuario.charAt(0).toUpperCase() : 'U'}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -35,7 +35,7 @@ export function UserNav() {
         <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/profile" className="cursor-pointer flex gap-2">
+          <Link href="/home/profile" className="cursor-pointer flex gap-2">
             <User className="h-4 w-4" />
             <span>Perfil</span>
           </Link>
