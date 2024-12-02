@@ -32,11 +32,11 @@ Sigue los siguientes pasos para instalar y configurar el proyecto:
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/take-it.git
+   git clone https://github.com/Rafaelx-ss/TakeIt.git
    ```
 2. Navega a la carpeta del proyecto:
    ```bash
-   cd take-it
+   cd TakeIt
    ```
 3. Instala las dependencias necesarias utilizando **npm**:
    ```bash
