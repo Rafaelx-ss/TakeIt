@@ -117,6 +117,11 @@ model subcategorias {
   eventos                 eventos[]
 }
 
+
+
+
+
+
 model usuarios {
   usuarioID              Int                   @id @default(autoincrement())
   nombreUsuario          String                @db.VarChar(250)
