@@ -24,6 +24,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { backend } from '@/lib/endpoints';
 
 // Esquema de validación con confirmación de contraseña
 const registerSchema = z
@@ -68,7 +69,7 @@ export function RegisterForm() {
     async function onSubmit(data: RegisterForm) {
         setIsLoading(true);
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, { 
+            const response = await fetch(`${backend}/api/auth/register`, { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

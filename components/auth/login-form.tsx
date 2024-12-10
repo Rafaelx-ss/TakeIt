@@ -19,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/app/context/auth';
+import { backend } from '@/lib/endpoints';
 
 const loginSchema = z.object({
   email: z.string().email('Correo electrónico inválido'),
@@ -58,7 +59,7 @@ export function LoginForm() {
   async function onSubmit(data: LoginForm) {
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, { 
+      const response = await fetch(`${backend}/api/auth/login`, { 
         method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
