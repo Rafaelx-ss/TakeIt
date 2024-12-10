@@ -11,7 +11,7 @@ export default function Layout({
       <div className="flex min-h-screen">
         <Sidebar />
         <div className="flex-1 overflow-auto">
-          <main className="p-6">
+          <main>
             {children}
           </main>
         </div>
