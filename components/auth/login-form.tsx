@@ -31,21 +31,23 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
   const router = useRouter();
   const { toast } = useToast();
   const { auth, login } = useAuth();
 
   // Manejar redirección si el usuario ya está logueado
   useEffect(() => {
-    if (auth.token) {
+    if (auth.token && !authChecked) { // Solo ejecuta si hay un token y no está cargando el login
       toast({
         variant: 'alert',
         title: 'Hola',
         description: 'Ya has iniciado sesión',
       });
-      router.push('/'); // Redirige al usuario
+      router.push('/');
     }
-  }, [auth.token, router, toast]); // Se ejecuta solo si auth.token cambia
+  }, [auth.token, router, toast, authChecked]);
 
 
   const form = useForm<LoginForm>({
@@ -56,8 +58,11 @@ export function LoginForm() {
     },
   });
 
+
   async function onSubmit(data: LoginForm) {
     setIsLoading(true);
+    setAuthChecked(true);
+
     try {
       const response = await fetch(`${backend}/api/auth/login`, { 
         method: 'POST',
