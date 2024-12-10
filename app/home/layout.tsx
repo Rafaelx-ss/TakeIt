@@ -1,5 +1,5 @@
 import { ProtectedRoute } from '@/components/ProtectedRoute';
-
+import { Sidebar } from "@/components/sidebar"
 
 export default function Layout({
   children,
@@ -8,9 +8,15 @@ export default function Layout({
 }) {
   return (
     <ProtectedRoute>
-      <div>
-        {children}
+      <div className="flex min-h-screen">
+        <Sidebar />
+        <div className="flex-1 overflow-auto">
+          <main className="p-6">
+            {children}
+          </main>
+        </div>
       </div>
     </ProtectedRoute>
   );
 }
+

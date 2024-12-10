@@ -78,7 +78,7 @@ export function LoginForm() {
 
         Cookies.set('authToken', responseData.data.token, { expires: 1, sameSite: 'strict'});  // <-- Guardar token en cookie
 
-        // console.log("datos del usuario::::", responseData.data.user);
+        console.log("datos del usuario::::", responseData.data.user);
 
         login(responseData.data.token, responseData.data.user);
 
@@ -89,8 +89,8 @@ export function LoginForm() {
           description: 'Iniciaste sesión correctamente',
         });
         
-        router.refresh();
         router.push('/');
+        router.refresh();
     
       } catch (error) {
         toast({

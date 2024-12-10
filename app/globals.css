@@ -8,13 +8,6 @@
   --background-end-rgb: 255, 255, 255; /* Blanco */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255; /* Blanco */
-    --background-start-rgb: 0, 0, 0; /* Negro */
-    --background-end-rgb: 0, 0, 0; /* Negro */
-  }
-}
 
 @layer base {
   :root {

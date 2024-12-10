@@ -18,7 +18,7 @@ export function UserNav() {
   const usuario = auth.user;
 
   // console.log("AUT::::", auth);
-  // console.log("TOKEN:::::", auth.token);
+  console.log("TOKEN:::::", auth.token);
   // console.log("USUARIO:::::", usuario);
   // console.log("Nombre:::::", usuario?.nombreUsuario);
 
