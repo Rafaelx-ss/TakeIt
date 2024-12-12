@@ -29,6 +29,8 @@ const config: Config = {
         textLight: 'hsl(var(--text-light))',
         success: 'hsl(var(--success))',
         error: 'hsl(var(--error))',
+        'error-hover': 'hsl(var(--error-hover))',
+        'error-bg-hover': 'hsl(var(--error-bg) / 0.1)', // Transparencia al 10%
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

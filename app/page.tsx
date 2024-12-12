@@ -24,7 +24,7 @@ export default function Home() {
                 </Link>
                 <Link href="/register">
                     <Button size="lg" variant="outline">
-                    Crear Cuenta
+                        Crear Cuenta
                     </Button>
                 </Link>
                 </div>

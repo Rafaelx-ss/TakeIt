@@ -22,7 +22,7 @@ export function Sidebar() {
 
     return (
         <div 
-            className={`flex flex-col bg-[#1A1A1A] h-screen transition-all duration-300 ${isSidebarExpanded ? 'w-64' : 'w-16'}`}
+            className={`flex flex-col bg-[#1A1A1A] h-auto transition-all duration-300 ${isSidebarExpanded ? 'w-64' : 'w-16'}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >

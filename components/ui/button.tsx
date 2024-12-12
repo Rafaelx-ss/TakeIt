@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -25,10 +25,15 @@ const buttonVariants = cva(
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10',
       },
+      withIcon: {
+        true: 'pl-4 pr-4 gap-2',
+        false: 'px-4',
+      },
     },
     defaultVariants: {
       variant: 'default',
       size: 'default',
+      withIcon: false,
     },
   }
 );
@@ -40,17 +45,33 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
+
+    const hasIcon = React.Children.toArray(children).some(
+      (child) => React.isValidElement(child) && child.props.className?.includes('h-4 w-4')
+    );
+
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size, withIcon: hasIcon ? true : false, className })
+        )}
         ref={ref}
         {...props}
-      />
+      >
+        {hasIcon ? (
+          <span className="flex items-center gap-2">
+            {children}
+          </span>
+        ) : (
+          children
+        )}
+      </Comp>
     );
   }
 );
+
 Button.displayName = 'Button';
 
 export { Button, buttonVariants };
