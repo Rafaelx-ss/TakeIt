@@ -131,7 +131,16 @@ export function RegisterForm() {
                     <FormItem className="w-full">
                         <FormLabel>Nombre de Usuario</FormLabel>
                         <FormControl>
-                        <Input placeholder="Usuario único" autoComplete='username' {...field} />
+                        <Input 
+                            placeholder="Usuario único" 
+                            autoComplete='username' 
+                            {...field} 
+                            onChange={(e)=>{
+                                const inputValue = e.target.value;
+                                const filterValue = inputValue.replace(/[^a-zA-Z0-9_]/g, '');
+                                field.onChange(filterValue);
+                            }}
+                        />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -190,7 +199,18 @@ export function RegisterForm() {
                     <FormItem className="w-full">
                         <FormLabel>Teléfono</FormLabel>
                         <FormControl>
-                        <Input placeholder="Número de teléfono" {...field} />
+                        <Input 
+                            type="number"
+                            placeholder="Número de teléfono" 
+                            min="1000000000"
+                            max="9999999999"
+                            {...field} 
+                            onChange={(e)=>{
+                                const inputValue = e.target as HTMLInputElement;
+                                const filterValue = inputValue.value.replace(/[^0-9]/g, '');
+                                field.onChange(filterValue);
+                            }}
+                        />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
