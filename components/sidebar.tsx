@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Home, FileText, Users, BarChart3, FileBarChart, Menu, Pin, PinOff  } from 'lucide-react'
+import { Home, FileText, Users, BarChart3, FileBarChart, Menu, Pin, PinOff, BookOpenCheck  } from 'lucide-react'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -16,6 +16,7 @@ export function Sidebar() {
         { name: 'Patrocinadores', href: '/home/patrocinadores', icon: Users },
         { name: 'Resultados', href: '/home/resultados', icon: BarChart3 },
         { name: 'Reportes', href: '/home/reportes', icon: FileBarChart },
+        { name: 'Ejemplos', href: '/home/examples', icon: BookOpenCheck  },
     ]
 
     const isSidebarExpanded = !isCollapsed || isHovered;
