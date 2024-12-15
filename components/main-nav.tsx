@@ -16,7 +16,7 @@ export function MainNav() {
     <header className="border-b">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         <div className="flex gap-6 items-center">
-          <Link href="/" className="font-bold text-xl">
+          <Link href="/" className="font-bold text-xl text-dorado">
             Take It
           </Link>
           <nav className="hidden md:flex gap-6">

@@ -1,8 +1,105 @@
-export default function Patrocinadores() {
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Plus } from "lucide-react";
+import { ProductCard } from '@/components/ui/product-card'
+
+const mockData = [
+{
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Pepsi_logo_2014.svg/1509px-Pepsi_logo_2014.svg.png",
+    event: "Festival De Música",
+    date: "15/10/23",
+    status: "Activo",
+},
+{
+    logo: "https://www.utmetropolitana.edu.mx/Publicaciones/recursos/BotonImagen/logo%20UTM-01.png",
+    event: "Feria de la tecnología",
+    date: "25/11/23",
+    status: "Activo",
+},
+{
+    logo: "https://cdn-icons-png.flaticon.com/512/10393/10393636.png",
+    event: "Carrera de relevos",
+    date: "10/11/23",
+    status: "Inactivo",
+},
+{
+    logo: "https://img.freepik.com/vector-premium/logotipo-contraccion_578229-259.jpg?semt=ais_hybrid",
+    event: "Copa Gamer",
+    date: "30/11/23",
+    status: "Activo",
+},
+];
+
+export default function Page() {
     return (
-        <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-4rem)] py-10">
-            Hola mundo desde Patrocinadores
+    <div className="p-6 bg-background text-text">
+      {/* Header */}
+        <h1 className="text-2xl font-bold mb-4 text-dorado">Patrocinios</h1>
+
+      {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <Card className="p-4 text-center">
+            <p className="text-sm">Patrocinadores por evento</p>
+            <p className="text-2xl font-bold">5</p>
+        </Card>
+        <Card className="p-4 text-center">
+            <p className="text-sm">Total de Patrocinadores</p>
+            <p className="text-2xl font-bold">15</p>
+        </Card>
+        <Card className="p-4 text-center">
+            <p className="text-sm">Fondos recaudados</p>
+            <p className="text-2xl font-bold">$25,000 USD</p>
+        </Card>
+    </div>
+
+      {/* Recent Sponsors Section */}
+    <div className="mb-6 flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-dorado">Patrocinadores Recientes</h2>
+        <Button size="sm" variant="outline">
+            Ver Más
+        </Button>
+    </div>
+
+    <section>
+          <h2 className="text-2xl font-semibold mb-4">Productos Destacados</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <ProductCard name="Producto 1" price={29.99} image="/placeholder.svg?height=200&width=200" />
+            <ProductCard name="Producto 2" price={39.99} image="/placeholder.svg?height=200&width=200" />
+            <ProductCard name="Producto 3" price={49.99} image="/placeholder.svg?height=200&width=200" />
+          </div>
+    </section>
+
+      {/* Sponsor Cards */}
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {mockData.map((sponsor, index) => (
+            <Card key={index} className="p-4 flex flex-col items-center text-center">
+            <img
+                src={sponsor.logo}
+                alt={sponsor.event}
+                className="h-16 w-16 object-contain mb-4"
+            />
+            <p className="text-sm font-semibold mb-2">Evento: {sponsor.event}</p>
+            <p className="text-xs mb-2">Fecha: {sponsor.date}</p>
+            <span
+                className={`px-3 py-1 text-xs rounded-full font-medium ${
+                sponsor.status === "Activo"
+                    ? "bg-success text-black"
+                    : "bg-error text-white"
+            }`}
+            >
+            {sponsor.status}
+            </span>
+            </Card>
+        ))}
+
+        {/* Add New Sponsor Card */}
+        <Card className="p-4 flex flex-col items-center justify-center text-center bg-dorado text-black cursor-pointer hover:bg-secondary">
+            <Plus className="h-8 w-8 mb-2" />
+            <p className="text-sm font-semibold">Agregar Nuevo Patrocinador</p>
+        </Card>
         </div>
+    </div>
     );
 }
-
