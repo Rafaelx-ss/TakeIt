@@ -1,5 +1,6 @@
 import React from 'react'
 import { Facebook, Instagram, Twitter } from 'lucide-react'
+import SocialButton from './SocialButton';
 
 const Footer = () => {
   return (
@@ -31,15 +32,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Síguenos</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-text-light hover:text-[hsl(var(--dorado))]">
-                <Facebook size={24} />
-              </a>
-              <a href="#" className="text-text-light hover:text-[hsl(var(--dorado))]">
-                <Instagram size={24} />
-              </a>
-              <a href="#" className="text-text-light hover:text-[hsl(var(--dorado))]">
-                <Twitter size={24} />
-              </a>
+              <SocialButton title="Facebook" icon={<Facebook size={24} />} />
+              <SocialButton title="Instagram" icon={<Instagram size={24} />} />
+              <SocialButton title="Twitter" icon={<Twitter size={24} />} />
             </div>
           </div>
         </div>
