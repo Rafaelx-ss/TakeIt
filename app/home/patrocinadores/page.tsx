@@ -11,26 +11,30 @@ import { useState, useEffect } from 'react';
 
 const mockData = [
 {
-    logo: "https://cdn.iconscout.com/icon/free/png-256/free-pepsi-5-722731.png?f=webp",
-    event: "PepsiCo Inc",
+    patrocinadorID: 1,
+    fotoPatrocinador: "https://cdn.iconscout.com/icon/free/png-256/free-pepsi-5-722731.png?f=webp",
+    nombrePatrocinador: "PepsiCo Inc",
     date: "15/10/23",
     status: "Activo",
 },
 {
-    logo: "https://ut-morelia.edu.mx/wp-content/uploads/2022/05/Logo-UTM-Claro.png",
-    event: "TecNM (UT)",
+    patrocinadorID: 2,
+    fotoPatrocinador: "https://ut-morelia.edu.mx/wp-content/uploads/2022/05/Logo-UTM-Claro.png",
+    nombrePatrocinador: "TecNM (UT)",
     date: "25/11/23",
     status: "Activo",
 },
 {
-    logo: "https://market5201.com/images/brands/galletas-donde.png",
-    event: "Galletas Dondé",
+    patrocinadorID: 3,
+    fotoPatrocinador: "https://market5201.com/images/brands/galletas-donde.png",
+    nombrePatrocinador: "Galletas Dondé",
     date: "10/11/23",
     status: "Inactivo",
 },
 {
-    logo: "https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-twitch-circle-512.png",
-    event: "Twitch Interactive, Inc",
+    patrocinadorID: 4,
+    fotoPatrocinador: "https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-twitch-circle-512.png",
+    nombrePatrocinador: "Twitch Interactive, Inc",
     date: "30/11/23",
     status: "Activo",
 },
@@ -75,9 +79,9 @@ export default function Page() {
         />
 
         <MetricCard
-            title="Patrocinadores por evento"
+            title="Patrocinadores por nombrePatrocinadoro"
             value="5"
-            description="Promedio de patrocinadores por evento"
+            description="Promedio de patrocinadores por nombrePatrocinadoro"
             icon={UsersIcon}
         />
     </div>
@@ -85,8 +89,8 @@ export default function Page() {
       {/* Recent Sponsors Section */}
         <div className="mb-6 flex justify-between items-center">
             <h2 className="text-xl font-semibold text-foreground">Patrocinadores Recientes</h2>
-            <Button size="sm" variant="outline" className="flex items-center gap-2">
-                <Plus className="w-4 h-4" />
+            <Button size="lg" variant="outline">
+                <Plus className="h-4 w-4" />
                 Agregar Nuevo
             </Button>
         </div>
@@ -101,11 +105,11 @@ export default function Page() {
                     <Skeleton className="h-4 w-1/3" />
                 </div>
                 ))
-            : mockData.map((sponsor, index) => (
+            : mockData.map((sponsor, patrocinadorID) => (
                 <SponsorCard
-                    key={index}
-                    logo={sponsor.logo}
-                    event={sponsor.event}
+                    key={patrocinadorID}
+                    logo={sponsor.fotoPatrocinador}
+                    event={sponsor.nombrePatrocinador}
                     date={sponsor.date}
                     status={sponsor.status}
                 />
