@@ -6,35 +6,45 @@ import { Plus, UsersIcon, DollarSignIcon, GroupIcon, HandHeartIcon } from 'lucid
 import { ProductCard } from '@/components/ui/product-card'
 import { MetricCard } from '@/components/patrocinadores/metric-card';
 import { SponsorCard } from "@/components/patrocinadores/sponsorcard";
+import { Skeleton } from '@/components/ui/skeleton';
+import { useState, useEffect } from 'react';
 
 const mockData = [
 {
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Pepsi_logo_2014.svg/1509px-Pepsi_logo_2014.svg.png",
-    event: "Festival De Música",
+    logo: "https://cdn.iconscout.com/icon/free/png-256/free-pepsi-5-722731.png?f=webp",
+    event: "PepsiCo Inc",
     date: "15/10/23",
     status: "Activo",
 },
 {
-    logo: "https://www.utmetropolitana.edu.mx/Publicaciones/recursos/BotonImagen/logo%20UTM-01.png",
-    event: "Feria de la tecnología",
+    logo: "https://ut-morelia.edu.mx/wp-content/uploads/2022/05/Logo-UTM-Claro.png",
+    event: "TecNM (UT)",
     date: "25/11/23",
     status: "Activo",
 },
 {
-    logo: "https://cdn-icons-png.flaticon.com/512/10393/10393636.png",
-    event: "Carrera de relevos",
+    logo: "https://market5201.com/images/brands/galletas-donde.png",
+    event: "Galletas Dondé",
     date: "10/11/23",
     status: "Inactivo",
 },
 {
-    logo: "https://img.freepik.com/vector-premium/logotipo-contraccion_578229-259.jpg?semt=ais_hybrid",
-    event: "Copa Gamer",
+    logo: "https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-twitch-circle-512.png",
+    event: "Twitch Interactive, Inc",
     date: "30/11/23",
     status: "Activo",
 },
 ];
 
 export default function Page() {
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsLoading(false), 2000);
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
 
     <div className="p-6 bg-background text-text">
@@ -75,14 +85,23 @@ export default function Page() {
       {/* Recent Sponsors Section */}
         <div className="mb-6 flex justify-between items-center">
             <h2 className="text-xl font-semibold text-foreground">Patrocinadores Recientes</h2>
-            <Button size="sm" variant="outline">
-            Ver Más
+            <Button size="sm" variant="outline" className="flex items-center gap-2">
+                <Plus className="w-4 h-4" />
+                Agregar Nuevo
             </Button>
         </div>
 
-      {/* Sponsor Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {mockData.map((sponsor, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {isLoading
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <div key={`skeleton-${index}`} className="p-4 border rounded-lg">
+                    <Skeleton className="h-20 w-full mb-4" />
+                    <Skeleton className="h-6 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2 mb-2" />
+                    <Skeleton className="h-4 w-1/3" />
+                </div>
+                ))
+            : mockData.map((sponsor, index) => (
                 <SponsorCard
                     key={index}
                     logo={sponsor.logo}
@@ -90,14 +109,8 @@ export default function Page() {
                     date={sponsor.date}
                     status={sponsor.status}
                 />
-            ))}
-
-    {/* Add New Sponsor Card */}
-        <Card className="p-4 flex flex-col items-center justify-center text-center bg-dorado text-black cursor-pointer hover:bg-secondary">
-            <Plus className="h-8 w-8 mb-2" />
-            <p className="text-sm font-semibold">Agregar Nuevo Patrocinador</p>
-        </Card>
-    </div>
+                ))}
+        </div>
     </div>
 );
 }

@@ -36,6 +36,16 @@ export function MainNav() {
             >
               Nosotros
             </Link>
+            {auth.token && (
+              <Link
+                href='/home/dashboard'
+                className={`text-sm transition-colors hover:text-primary ${
+                  pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground'
+                }`}
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
         </div>
         <div className="flex items-center gap-4">
