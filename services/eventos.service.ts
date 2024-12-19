@@ -225,13 +225,36 @@ const mockEventos: Evento[] = [
 
 
 export const EventosService = {
-    obtenerEventos: async (): Promise<Evento[]> => {
-        // Aquí posteriormente podrás hacer el fetch real a tu API
-        // Por ahora, simulamos una llamada asíncrona
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(mockEventos)
-            }, 500)
-        })
+    obtenerEventos: async ({
+        page = 1,
+        itemsPerPage = 10,
+        sortColumn = null,
+        sortDirection = 'asc'
+    }: {
+        page: number,
+        itemsPerPage: number,
+        sortColumn: keyof Evento | null,
+        sortDirection: 'asc' | 'desc'
+    }): Promise<{ eventos: Evento[], totalItems: number }> => {
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        let sortedEventos = [...mockEventos];
+        if (sortColumn) {
+            sortedEventos.sort((a, b) => {
+                if (a[sortColumn] < b[sortColumn]) return sortDirection === 'asc' ? -1 : 1;
+                if (a[sortColumn] > b[sortColumn]) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedEventos = sortedEventos.slice(startIndex, endIndex);
+
+        return {
+            eventos: paginatedEventos,
+            totalItems: mockEventos.length
+        };
     }
-} 
+};

@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation"
 
 export function Sidebar() {
     const pathname = usePathname()
-    const [isCollapsed, setIsCollapsed] = useState(false)
+    const [isCollapsed, setIsCollapsed] = useState(true)
     const [isHovered, setIsHovered] = useState(false)
 
     const navigation = [

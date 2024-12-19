@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect} from "react"
 import { Button } from "@/components/ui/button"
 import {
     Table,
@@ -14,54 +14,39 @@ import { Input } from "@/components/ui/input"
 import { Search, Plus, Pencil, Trash } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { EventosService } from '@/services/eventos.service'
+import { Evento } from '@/types/eventos'
 import { Skeleton } from "@/components/ui/skeleton"
-import { Pagination } from "@/components/ui/pagination"
-import { Evento } from "@/types/eventos"
-import { EventosService } from "@/services/eventos.service"
 
-export default function EventosPage() {
+
+    export default function EventosPage() {
     const [searchQuery, setSearchQuery] = useState("")
-    const [filterStatus, setFilterStatus] = useState<"all" | "active" | "finished">("all")
+    const [filterStatus, setFilterStatus] = useState<"all" | "active" | "finished">("active")
     const [eventos, setEventos] = useState<Evento[]>([])
     const [isLoading, setIsLoading] = useState(true)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage] = useState(10)
-    const [sortColumn, setSortColumn] = useState<keyof Evento | null>(null)
-    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
-    const [totalItems, setTotalItems] = useState(0)
-    const [error, setError] = useState<string | null>(null)
+
 
     useEffect(() => {
         const cargarEventos = async () => {
-            setIsLoading(true)
             try {
-                const data = await EventosService.obtenerEventos({
-                    page: currentPage,
-                    itemsPerPage,
-                    sortColumn,
-                    sortDirection
-                })
-                setEventos(data.eventos)
-                setTotalItems(data.totalItems)
+                const data = await EventosService.obtenerEventos()
+                setEventos(data)
             } catch (error) {
                 console.error('Error al cargar eventos:', error)
-                setError('Hubo un problema al cargar los eventos. Por favor, intente de nuevo más tarde.')
             } finally {
                 setIsLoading(false)
             }
         }
 
         cargarEventos()
-    }, [currentPage, itemsPerPage, sortColumn, sortDirection]) 
+    }, [])
 
-    const filteredEventos = useMemo(() => {
-        return eventos.filter(evento =>
-            evento.nombreEvento.toLowerCase().includes(searchQuery.toLowerCase()) &&
-            (filterStatus === "all" || 
-                (filterStatus === "active" && evento.activoEvento) ||
-                (filterStatus === "finished" && !evento.activoEvento))
-        )
-    }, [eventos, searchQuery, filterStatus])
+    const filteredEventos = eventos.filter(evento =>
+        evento.nombreEvento.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (filterStatus === "all" || 
+            (filterStatus === "active" && evento.activoEvento) ||
+            (filterStatus === "finished" && !evento.activoEvento))
+    )
 
     const handleEdit = (id: number) => {
         console.log(`Editar evento con ID: ${id}`)
@@ -71,45 +56,25 @@ export default function EventosPage() {
         console.log(`Eliminar evento con ID: ${id}`)
     }
 
-    const handleSort = (column: keyof Evento) => {
-        if (sortColumn === column) {
-            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
-        } else {
-            setSortColumn(column)
-            setSortDirection('asc')
-        }
-    }
-
-    const paginatedEventos = useMemo(() => {
-        const startIndex = (currentPage - 1) * itemsPerPage
-        return filteredEventos.slice(startIndex, startIndex + itemsPerPage)
-    }, [filteredEventos, currentPage, itemsPerPage])
-
-    const totalPages = Math.ceil(filteredEventos.length / itemsPerPage);
-
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
-
     return (
         <div className="p-6 bg-background">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-semibold text-foreground">Eventos actuales</h1>
                 <Button size="lg" variant="outline">
-                    <Plus className="h-4 w-4 mr-2" />
+                    <Plus className="h-4 w-4" />
                     Crear evento
                 </Button>
             </div>
 
             <div className="mb-6 flex items-center gap-4">
                 <div className="relative flex-1 max-w-sm">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                    <Input
-                        placeholder="Buscar eventos..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10"
-                    />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                    placeholder="Buscar eventos..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10"
+                />
                 </div>
                 <Select value={filterStatus} onValueChange={(value: "all" | "active" | "finished") => setFilterStatus(value)}>
                     <SelectTrigger className="w-[180px]">
@@ -123,62 +88,41 @@ export default function EventosPage() {
                 </Select>
             </div>
 
-            {error && (
-                <div className="bg-red-100 border border-error text-error px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong className="font-bold">Error: </strong>
-                    <span className="block sm:inline">{error}</span>
-                </div>
-            )}
-
             <div className="border rounded-lg overflow-hidden">
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-[200px]" onClick={() => handleSort('nombreEvento')}>
-                                Nombre {sortColumn === 'nombreEvento' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </TableHead>
-                            <TableHead onClick={() => handleSort('fechaEvento')}>
-                                Fecha y Hora {sortColumn === 'fechaEvento' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </TableHead>
-                            <TableHead onClick={() => handleSort('lugarEvento')}>
-                                Lugar {sortColumn === 'lugarEvento' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </TableHead>
-                            <TableHead onClick={() => handleSort('direccionEvento')}>
-                                Dirección {sortColumn === 'direccionEvento' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </TableHead>
-                            <TableHead onClick={() => handleSort('costoEvento')}>
-                                Costo {sortColumn === 'costoEvento' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </TableHead>
-                            <TableHead onClick={() => handleSort('maximoParticipantesEvento')}>
-                                Participantes {sortColumn === 'maximoParticipantesEvento' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </TableHead>
-                            <TableHead onClick={() => handleSort('activoEvento')}>
-                                Estado {sortColumn === 'activoEvento' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </TableHead>
+                            <TableHead className="w-[200px]">Nombre</TableHead>
+                            <TableHead>Fecha y Hora</TableHead>
+                            <TableHead>Lugar</TableHead>
+                            <TableHead>Dirección</TableHead>
+                            <TableHead>Costo</TableHead>
+                            <TableHead>Participantes</TableHead>
+                            <TableHead>Estado</TableHead>
                             <TableHead className="text-right">Acciones</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {isLoading ? (
-                            Array.from({ length: itemsPerPage }).map((_, index) => (
+                            Array.from({ length: 5 }).map((_, index) => (
                                 <TableRow key={`skeleton-${index}`}>
                                     <TableCell>
-                                        <Skeleton className="h-6 w-[150px]" />
+                                        <Skeleton className="h-4 w-[150px]" />
                                     </TableCell>
                                     <TableCell>
-                                        <Skeleton className="h-10 w-[100px]" />
+                                        <Skeleton className="h-8 w-[100px]" />
                                     </TableCell>
                                     <TableCell>
-                                        <Skeleton className="h-5 w-[230px]" />
+                                        <Skeleton className="h-4 w-[180px]" />
                                     </TableCell>
                                     <TableCell>
-                                        <Skeleton className="h-5 w-[180px]" />
+                                        <Skeleton className="h-4 w-[180px]" />
                                     </TableCell>
                                     <TableCell>
-                                        <Skeleton className="h-5 w-[50px]" />
+                                        <Skeleton className="h-4 w-[80px]" />
                                     </TableCell>
                                     <TableCell>
-                                        <Skeleton className="h-5 w-[30px]" />
+                                        <Skeleton className="h-4 w-[40px]" />
                                     </TableCell>
                                     <TableCell>
                                         <Skeleton className="h-6 w-[80px] rounded-full" />
@@ -192,7 +136,7 @@ export default function EventosPage() {
                                 </TableRow>
                             ))
                         ) : (
-                            paginatedEventos.map((evento) => (
+                            filteredEventos.map((evento) => (
                                 <TableRow key={evento.eventosID}>
                                     <TableCell className="font-medium">{evento.nombreEvento}</TableCell>
                                     <TableCell>
@@ -227,7 +171,7 @@ export default function EventosPage() {
                                                         variant="ghost"
                                                         size="icon"
                                                         className="h-8 w-8 p-0 text-dorado hover:text-black hover:bg-dorado"
-                                                    >
+                                                        >
                                                         <Pencil className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -244,7 +188,7 @@ export default function EventosPage() {
                                                         variant="ghost"
                                                         size="icon"
                                                         className="h-8 w-8 p-0 text-error hover:text-error-hover hover:bg-error-bg-hover hover:border-error"
-                                                    >
+                                                        >
                                                         <Trash className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -260,16 +204,7 @@ export default function EventosPage() {
                     </TableBody>
                 </Table>
             </div>
-            {totalPages > 1 && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalItems={filteredEventos.length}
-                    itemsPerPage={itemsPerPage}
-                    onPageChange={handlePageChange}
-                    filteredItemsCount={filteredEventos.length}
-                    totalPages={totalPages}
-                />
-            )}
         </div>
     )
 }
+
