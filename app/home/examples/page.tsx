@@ -27,7 +27,6 @@ import { Leaderboard } from '@/components/examples/components_leaderboard'
 import { RadarChartComponent } from '@/components/examples/components_radar-chart'
 import { NotificationList } from '@/components/examples/components_notification-list'
 import { ExpandableProfileCard } from '@/components/examples/components_expandable-profile-card'
-import { DraggableTaskList } from '@/components/examples/components_draggable-task-list'
 import { BubbleChart } from '@/components/examples/components_bubble-chart'
 import { AreaChartComponent } from '@/components/examples/components_area-chart'
 import { ActivityFeed } from '@/components/examples/components_activity-feed'
@@ -38,7 +37,6 @@ import { MetricCard } from '@/components/examples/components_metric-card'
 import { CandlestickChartComponent } from '@/components/examples/components_candlestick-chart'
 import { CryptoPriceTable } from '@/components/examples/components_crypto-price-table'
 import { CodeEditor } from '@/components/examples/components_code-editor'
-import { KanbanBoard } from '@/components/examples/components_kanban-board'
 import { TreemapChart } from '@/components/examples/components_treemap-chart'
 
 // Primero define la interfaz para los datos de la tabla
@@ -491,10 +489,6 @@ export default function DashboardPage() {
           />
         </section>
 
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Lista de Tareas Arrastrable</h2>
-          <DraggableTaskList />
-        </section>
 
         <section>
           <h2 className="text-2xl font-semibold mb-4">Gráfico de Burbujas</h2>
@@ -550,11 +544,6 @@ export default function DashboardPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">Editor de Código</h2>
           <CodeEditor />
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Tablero Kanban</h2>
-          <KanbanBoard />
         </section>
 
         <section>

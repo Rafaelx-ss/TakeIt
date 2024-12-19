@@ -36,8 +36,9 @@ export default function EventosPage() {
             setIsLoading(true)
             try {
                 const data = await EventosService.obtenerEventos({
+                    usuarioID: 1,
                     page: currentPage,
-                    itemsPerPage,
+                    itemsPerPage, 
                     sortColumn,
                     sortDirection
                 })
@@ -52,7 +53,7 @@ export default function EventosPage() {
         }
 
         cargarEventos()
-    }, [currentPage, itemsPerPage, sortColumn, sortDirection]) 
+    }, [currentPage, sortColumn, sortDirection])
 
     const filteredEventos = useMemo(() => {
         return eventos.filter(evento =>
@@ -62,6 +63,11 @@ export default function EventosPage() {
                 (filterStatus === "finished" && !evento.activoEvento))
         )
     }, [eventos, searchQuery, filterStatus])
+
+    const paginatedEventos = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage
+        return filteredEventos.slice(startIndex, startIndex + itemsPerPage)
+    }, [filteredEventos, currentPage, itemsPerPage])
 
     const handleEdit = (id: number) => {
         console.log(`Editar evento con ID: ${id}`)
@@ -80,17 +86,13 @@ export default function EventosPage() {
         }
     }
 
-    const paginatedEventos = useMemo(() => {
-        const startIndex = (currentPage - 1) * itemsPerPage
-        return filteredEventos.slice(startIndex, startIndex + itemsPerPage)
-    }, [filteredEventos, currentPage, itemsPerPage])
-
-    const totalPages = Math.ceil(filteredEventos.length / itemsPerPage);
-
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
 
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [searchQuery, filterStatus])
     return (
         <div className="p-6 bg-background">
             <div className="flex justify-between items-center mb-6">
@@ -193,7 +195,10 @@ export default function EventosPage() {
                             ))
                         ) : (
                             paginatedEventos.map((evento) => (
-                                <TableRow key={evento.eventosID}>
+                                <TableRow key={evento.eventoID}>
+                                    {console.log("PEPEEEE:::", evento)}
+                                    
+
                                     <TableCell className="font-medium">{evento.nombreEvento}</TableCell>
                                     <TableCell>
                                         {new Date(evento.fechaEvento).toLocaleDateString()}
@@ -206,11 +211,11 @@ export default function EventosPage() {
                                             {evento.direccionEvento}
                                         </div>
                                     </TableCell>
-                                    <TableCell>${evento.costoEvento.toFixed(2)}</TableCell>
+                                    <TableCell>${Number(evento.costoEvento).toFixed(2)}</TableCell>
                                     <TableCell>{evento.maximoParticipantesEvento}</TableCell>
                                     <TableCell>
                                         <span className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap
-                                            ${evento.activoEvento 
+                                            ${evento.activoEvento
                                             ? 'bg-green-100 text-green-800' 
                                             : 'bg-red-100 text-red-800'}
                                             xs:px-3 xs:py-1.5 xs:text-xs`}
@@ -223,7 +228,7 @@ export default function EventosPage() {
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <Button
-                                                        onClick={() => handleEdit(evento.eventosID)}
+                                                        onClick={() => handleEdit(evento.eventoID)}
                                                         variant="ghost"
                                                         size="icon"
                                                         className="h-8 w-8 p-0 text-dorado hover:text-black hover:bg-dorado"
@@ -240,12 +245,12 @@ export default function EventosPage() {
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <Button
-                                                        onClick={() => handleDelete(evento.eventosID)}
+                                                        onClick={() => handleDelete(evento.eventoID)}
                                                         variant="ghost"
                                                         size="icon"
                                                         className="h-8 w-8 p-0 text-error hover:text-error-hover hover:bg-error-bg-hover hover:border-error"
                                                     >
-                                                        <Trash className="h-4 w-4" />
+                                        <Trash className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
                                                 <TooltipContent>
@@ -260,16 +265,13 @@ export default function EventosPage() {
                     </TableBody>
                 </Table>
             </div>
-            {totalPages > 1 && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalItems={filteredEventos.length}
-                    itemsPerPage={itemsPerPage}
-                    onPageChange={handlePageChange}
-                    filteredItemsCount={filteredEventos.length}
-                    totalPages={totalPages}
-                />
-            )}
+            <Pagination
+                currentPage={currentPage}
+                totalItems={filteredEventos.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={handlePageChange}
+            />
         </div>
     )
 }
+

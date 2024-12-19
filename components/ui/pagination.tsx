@@ -7,11 +7,10 @@ interface PaginationProps {
     totalItems: number
     itemsPerPage: number
     onPageChange: (page: number) => void
-    filteredItemsCount: number
-    totalPages: number
 }
 
-export function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange, filteredItemsCount, totalPages }: PaginationProps) {
+export function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange }: PaginationProps) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const getPageNumbers = () => {
         const pageNumbers = []
@@ -49,75 +48,57 @@ export function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange
     }
 
     const startItem = (currentPage - 1) * itemsPerPage + 1;
-    const endItem = Math.min(currentPage * itemsPerPage, filteredItemsCount);
+    const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
     return (
         <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-            <div className="flex flex-1 justify-between sm:hidden">
-                <Button
-                    onClick={() => onPageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    Anterior
-                </Button>
-                <Button
-                    onClick={() => onPageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    Siguiente
-                </Button>
+            <div>
+                <p className="text-sm text-secondary">
+                    Mostrando <span className="font-medium">{startItem}</span> a <span className="font-medium">{endItem}</span> de{' '}
+                    <span className="font-medium">{totalItems}</span> resultados
+                </p>
             </div>
-            <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                <div>
-                    <p className="text-sm text-secondary">
-                        Mostrando <span className="font-medium">{startItem}</span> a <span className="font-medium">{endItem}</span> de{' '}
-                        <span className="font-medium">{filteredItemsCount}</span> resultados
-                        {filteredItemsCount !== totalItems && ` (Filtrados de ${totalItems} total)`}
-                    </p>
+            {totalPages > 1 && (
+                <div className="flex flex-1 justify-between sm:justify-end">
+                    <nav className="isolate inline-flex space-x-2 rounded-md shadow-sm" aria-label="Pagination">
+                        <Button
+                            onClick={() => onPageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            variant="outline"
+                            size="icon"
+                            className="rounded-l-md"
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        {getPageNumbers().map((number, index) => (
+                            number === '...' ? (
+                                <span key={`ellipsis-${index}`} className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+                                    ...
+                                </span>
+                            ) : (
+                                <Button
+                                    key={number}
+                                    onClick={() => onPageChange(number as number)}
+                                    variant={currentPage === number ? "default" : "outline"}
+                                    size="icon"
+                                    className={`${currentPage === number ? 'z-10' : ''} focus:z-20`}
+                                >
+                                    {number}
+                                </Button>
+                            )
+                        ))}
+                        <Button
+                            onClick={() => onPageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            variant="outline"
+                            size="icon"
+                            className="rounded-r-md"
+                        >
+                            <ChevronRight className="h-4 w-4"/>
+                        </Button>
+                    </nav>
                 </div>
-                {totalPages > 1 && (
-                    <div>
-                        <nav className="isolate inline-flex space-x-2 rounded-md shadow-sm" aria-label="Pagination">
-                            <Button
-                                onClick={() => onPageChange(currentPage - 1)}
-                                disabled={currentPage === 1}
-                                variant="outline"
-                                size="icon"
-                                className="rounded-l-md"
-                            >
-                                <ChevronLeft className="h-4 w-4" />
-                            </Button>
-                            {getPageNumbers().map((number, index) => (
-                                number === '...' ? (
-                                    <span key={`ellipsis-${index}`} className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
-                                        ...
-                                    </span>
-                                ) : (
-                                    <Button
-                                        key={number}
-                                        onClick={() => onPageChange(number as number)}
-                                        variant={currentPage === number ? "default" : "outline"}
-                                        size="icon"
-                                        className={`${currentPage === number ? 'z-10' : ''} focus:z-20`}
-                                    >
-                                        {number}
-                                    </Button>
-                                )
-                            ))}
-                            <Button
-                                onClick={() => onPageChange(currentPage + 1)}
-                                disabled={currentPage === totalPages}
-                                variant="outline"
-                                size="icon"
-                                className="rounded-r-md"
-                            >
-                                <ChevronRight className="h-4 w-4"/>
-                            </Button>
-                        </nav>
-                    </div>
-                )}
-            </div>
+            )}
         </div>
     )
 }
-
