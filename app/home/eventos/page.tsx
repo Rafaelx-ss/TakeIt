@@ -53,7 +53,7 @@ export default function EventosPage() {
         }
 
         cargarEventos()
-    }, [currentPage, sortColumn, sortDirection])
+    }, [currentPage, itemsPerPage, sortColumn, sortDirection]) 
 
     const filteredEventos = useMemo(() => {
         return eventos.filter(evento =>
