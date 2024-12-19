@@ -14,29 +14,33 @@ const mockData = [
     patrocinadorID: 1,
     fotoPatrocinador: "https://cdn.iconscout.com/icon/free/png-256/free-pepsi-5-722731.png?f=webp",
     nombrePatrocinador: "PepsiCo Inc",
-    date: "15/10/23",
-    status: "Activo",
+    representantePatrocinador: "John Doe",
+    activoPatrocinador: 1,
+    estadoPatrocinador: 1,
 },
 {
     patrocinadorID: 2,
     fotoPatrocinador: "https://ut-morelia.edu.mx/wp-content/uploads/2022/05/Logo-UTM-Claro.png",
     nombrePatrocinador: "TecNM (UT)",
-    date: "25/11/23",
-    status: "Activo",
+    representantePatrocinador: "Jane Smith",
+    activoPatrocinador: 1,
+    estadoPatrocinador: 0,
 },
 {
     patrocinadorID: 3,
     fotoPatrocinador: "https://market5201.com/images/brands/galletas-donde.png",
     nombrePatrocinador: "Galletas Dondé",
-    date: "10/11/23",
-    status: "Inactivo",
+    representantePatrocinador: "Carlos Pérez",
+    activoPatrocinador: 1,
+    estadoPatrocinador: 1,
 },
 {
     patrocinadorID: 4,
     fotoPatrocinador: "https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-twitch-circle-512.png",
     nombrePatrocinador: "Twitch Interactive, Inc",
-    date: "30/11/23",
-    status: "Activo",
+    representantePatrocinador: "Mike Wilson",
+    activoPatrocinador: 1,
+    estadoPatrocinador: 1,
 },
 ];
 
@@ -105,13 +109,15 @@ export default function Page() {
                     <Skeleton className="h-4 w-1/3" />
                 </div>
                 ))
-            : mockData.map((sponsor, patrocinadorID) => (
+            : mockData
+                .filter((sponsor) => sponsor.activoPatrocinador === 1)
+                .map((sponsor) => (
                 <SponsorCard
-                    key={patrocinadorID}
+                    key={sponsor.patrocinadorID}
                     logo={sponsor.fotoPatrocinador}
-                    event={sponsor.nombrePatrocinador}
-                    date={sponsor.date}
-                    status={sponsor.status}
+                    namepatro={sponsor.nombrePatrocinador}
+                    representative={sponsor.representantePatrocinador}
+                    isState={sponsor.estadoPatrocinador}
                 />
                 ))}
         </div>
