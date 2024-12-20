@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
     Table,
@@ -69,12 +70,17 @@ export default function EventosPage() {
         return filteredEventos.slice(startIndex, startIndex + itemsPerPage)
     }, [filteredEventos, currentPage, itemsPerPage])
 
-    const handleEdit = (id: number) => {
-        console.log(`Editar evento con ID: ${id}`)
-    }
 
-    const handleDelete = (id: number) => {
-        console.log(`Eliminar evento con ID: ${id}`)
+    const handleDelete = async (eventoID: number) => {
+        if (window.confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+            try {
+                // await EventosService.eliminarEvento(eventoID.toString())
+                setEventos(eventos.filter(evento => evento.eventoID !== eventoID))
+            } catch (error) {
+                console.error('Error al eliminar el evento:', error)
+                setError('Hubo un problema al eliminar el evento. Por favor, intente de nuevo.')
+            }
+        }
     }
 
     const handleSort = (column: keyof Evento) => {
@@ -97,10 +103,12 @@ export default function EventosPage() {
         <div className="p-6 bg-background">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-semibold text-foreground">Eventos actuales</h1>
-                <Button size="lg" variant="outline">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Crear evento
-                </Button>
+                <Link href="/home/eventos/new">
+                    <Button size="lg" variant="outline">
+                        <Plus className="h-4 w-4" />
+                        Crear evento
+                    </Button>
+                </Link>
             </div>
 
             <div className="mb-6 flex items-center gap-4">
@@ -196,9 +204,6 @@ export default function EventosPage() {
                         ) : (
                             paginatedEventos.map((evento) => (
                                 <TableRow key={evento.eventoID}>
-                                    {console.log("PEPEEEE:::", evento)}
-                                    
-
                                     <TableCell className="font-medium">{evento.nombreEvento}</TableCell>
                                     <TableCell>
                                         {new Date(evento.fechaEvento).toLocaleDateString()}
@@ -227,14 +232,15 @@ export default function EventosPage() {
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <Button
-                                                        onClick={() => handleEdit(evento.eventoID)}
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        className="h-8 w-8 p-0 text-dorado hover:text-black hover:bg-dorado"
-                                                    >
-                                                        <Pencil className="h-4 w-4" />
-                                                    </Button>
+                                                    <Link href={`/home/eventos/${evento.eventoID}`}>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-8 w-8 p-0 text-dorado hover:text-black hover:bg-dorado"
+                                                        >
+                                                            <Pencil className="h-4 w-4" />
+                                                        </Button>
+                                                    </Link>
                                                 </TooltipTrigger>
                                                 <TooltipContent>
                                                     <p>Editar evento</p>

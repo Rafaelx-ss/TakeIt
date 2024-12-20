@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { Evento } from '@/types/eventos'
 import { backend } from '@/lib/endpoints';
-
 
 export const EventosService = {
     obtenerEventos: async ({
@@ -17,39 +17,90 @@ export const EventosService = {
         sortDirection: 'asc' | 'desc'
     }): Promise<{ eventos: Evento[], totalItems: number }> => {
         try {
-            const params = new URLSearchParams({
-                page: page.toString(),
-                itemsPerPage: itemsPerPage.toString(),
-                sortDirection: sortDirection
-            });
+        const params: any = {
+            page: page.toString(),
+            itemsPerPage: itemsPerPage.toString(),
+            sortDirection: sortDirection
+        };
 
-            if (sortColumn) {
-                params.append('sortColumn', sortColumn);
+        if (sortColumn) {
+            params.sortColumn = sortColumn;
+        }
+
+        const response = await axios.get(`${backend}/api/eventos/miseventos/${usuarioID}`, {
+            params,
+            headers: {
+            'Content-Type': 'application/json'
             }
+        });
 
-            const response = await fetch(`${backend}/api/eventos/miseventos/${usuarioID}?${params}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al obtener eventos');
-            }
-
-            const data = await response.json();
-            return {
-                eventos: data.eventos,
-                totalItems: data.totalItems
-            };
+        return {
+            eventos: response.data.eventos,
+            totalItems: response.data.totalItems
+        };
 
         } catch (error) {
-            console.error('Error en el servicio de eventos:', error);
-            throw error;
+        console.error('Error en el servicio de eventos:', error);
+        throw error;
+        }
+    },
+
+    obtenerEvento: async (eventoID: string): Promise<Evento> => {
+        try {
+        const response = await axios.get(`${backend}/api/eventos1/${eventoID}`, {
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+        } catch (error) {
+        console.error('Error al obtener el evento:', error);
+        throw error;
+        }
+    },
+
+    crearEvento: async (eventoData: Omit<Evento, 'eventoID'>): Promise<Evento> => {
+        try {
+        const response = await axios.post(`${backend}/api/eventos2`, eventoData, {
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+        } catch (error) {
+        console.error('Error al crear el evento:', error);
+        throw error;
+        }
+    },
+
+    actualizarEvento: async (eventoID: string, eventoData: Partial<Evento>): Promise<Evento> => {
+        try {
+        const response = await axios.put(`${backend}/api/eventos3/${eventoID}`, eventoData, {
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+        } catch (error) {
+        console.error('Error al actualizar el evento:', error);
+        throw error;
+        }
+    },
+
+    eliminarEvento: async (eventoID: string): Promise<void> => {
+        try {
+        await axios.delete(`${backend}/api/eventos4/${eventoID}`, {
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        });
+        } catch (error) {
+        console.error('Error al eliminar el evento:', error);
+        throw error;
         }
     }
 };
+
 
 
 // EVENTOS ESTATICOS (YA NO SE USAN): 
