@@ -17,6 +17,8 @@ export function UserNav() {
   const { auth, logout } = useAuth();
   const usuario = auth.user;
 
+  console.log('Hola pepe', auth.user.usuarioID);
+
   // console.log("AUT::::", auth);
   // console.log("TOKEN:::::", auth.token);
   // console.log("USUARIO:::::", usuario);
