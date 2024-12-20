@@ -20,6 +20,7 @@ import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/app/context/auth';
 import { backend } from '@/lib/endpoints';
+import axios from 'axios';
 
 const loginSchema = z.object({
   email: z.string().email('Correo electrónico inválido'),
@@ -63,48 +64,45 @@ export function LoginForm() {
     setAuthChecked(true);
 
     try {
-      const response = await fetch(`${backend}/api/auth/login`, { 
-        method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: data.email,
-              password: data.password
-            }),
-        });
+      const response = await axios.post(`${backend}/api/auth/login`, 
+      { 
+        email: data.email, 
+        password: data.password 
+      });
 
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Error al iniciar sesión');
-        }
+      const responseData = response.data;
 
-        const responseData = await response.json(); //  <-- Respuesta del servidor
+      Cookies.set('authToken', responseData.data.token, { expires: 1, sameSite: 'strict'});  // <-- Guardar token en cookie
 
-        Cookies.set('authToken', responseData.data.token, { expires: 1, sameSite: 'strict'});  // <-- Guardar token en cookie
+      // console.log("datos del usuario::::", responseData.data.user);
 
-        // console.log("datos del usuario::::", responseData.data.user);
+      login(responseData.data.token, responseData.data.user);
 
-        login(responseData.data.token, responseData.data.user);
-
-
-        toast({
-          variant: 'success',
-          title: 'Bienvenido',
-          description: 'Iniciaste sesión correctamente',
-        });
-        
-        router.push('/');
-        router.refresh();
+      toast({
+        variant: 'success',
+        title: 'Bienvenido',
+        description: 'Iniciaste sesión correctamente',
+      });
+      
+      router.push('/');
+      router.refresh();
     
-      } catch (error) {
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
         toast({
-            variant: 'destructive',
-            title: 'Error al iniciar sesión',
-            description: error instanceof Error ? error.message : 'Ocurrió un error',
+          variant: 'destructive',
+          title: 'Error al iniciar sesión',
+          description: error.response?.data?.message || 'Error al iniciar sesión'
         });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Error al iniciar sesión',
+          description: 'Ocurrió un error inesperado'
+        });
+      }
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   }
 

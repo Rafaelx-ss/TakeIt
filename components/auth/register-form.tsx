@@ -25,6 +25,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { backend } from '@/lib/endpoints';
+import axios from 'axios';
 
 // Esquema de validación con confirmación de contraseña
 const registerSchema = z
@@ -69,39 +70,36 @@ export function RegisterForm() {
     async function onSubmit(data: RegisterForm) {
         setIsLoading(true);
         try {
-            const response = await fetch(`${backend}/api/auth/register`, { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    nombreUsuario: data.nombreUsuario,
-                    usuario: data.usuario,
-                    email: data.email,
-                    password: data.password,
-                    telefonoUsuario: data.telefonoUsuario,
-                    fechaNacimientoUsuario: data.fechaNacimientoUsuario,
-                    generoUsuario: data.generoUsuario,
-                    rolUsuario: data.rolUsuario
-                }),
+            const response = await axios.post(`${backend}/api/auth/register`, {
+                nombreUsuario: data.nombreUsuario,
+                usuario: data.usuario,
+                email: data.email,
+                password: data.password,
+                telefonoUsuario: data.telefonoUsuario,
+                fechaNacimientoUsuario: data.fechaNacimientoUsuario,
+                generoUsuario: data.generoUsuario,
+                rolUsuario: data.rolUsuario
             });
-    
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Error al registrar');
-            }
-    
+
             toast({
                 title: 'Cuenta creada exitosamente',
                 description: 'Ahora puedes iniciar sesión',
             });
             router.push('/login');
         } catch (error) {
-            toast({
-                variant: 'destructive',
-                title: 'Error al crear la cuenta',
-                description: error instanceof Error ? error.message : 'Ocurrió un error',
-            });
+            if (axios.isAxiosError(error)) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error al crear la cuenta',
+                    description: error.response?.data?.message || 'Error al registrar'
+                });
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error al crear la cuenta',
+                    description: 'Ocurrió un error inesperado'
+                });
+            }
         } finally {
             setIsLoading(false);
         }
