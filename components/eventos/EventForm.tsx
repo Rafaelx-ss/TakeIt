@@ -36,7 +36,7 @@ import { cn } from '@/lib/utils'
 import { Evento } from '@/types/eventos'
 import { EventosService } from '@/services/eventos.service'
 import { useToast } from '@/hooks/use-toast'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent} from '@/components/ui/card'
 
 const formSchema = z.object({
     nombreEvento: z.string().min(1, 'El nombre del evento es requerido'),
@@ -153,8 +153,7 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
     }
 
     return (
-        <Card className="max-w-7xl mx-auto shadow-lg">
-
+        <Card className="max-w-screen-2xl mx-auto shadow-lg">
             <CardContent className="p-6">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

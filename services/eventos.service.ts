@@ -17,86 +17,86 @@ export const EventosService = {
         sortDirection: 'asc' | 'desc'
     }): Promise<{ eventos: Evento[], totalItems: number }> => {
         try {
-        const params: any = {
-            page: page.toString(),
-            itemsPerPage: itemsPerPage.toString(),
-            sortDirection: sortDirection
-        };
+            const params: any = {
+                page: page.toString(),
+                itemsPerPage: itemsPerPage.toString(),
+                sortDirection: sortDirection
+            };
 
-        if (sortColumn) {
-            params.sortColumn = sortColumn;
-        }
-
-        const response = await axios.get(`${backend}/api/eventos/miseventos/${usuarioID}`, {
-            params,
-            headers: {
-            'Content-Type': 'application/json'
+            if (sortColumn) {
+                params.sortColumn = sortColumn;
             }
-        });
 
-        return {
-            eventos: response.data.eventos,
-            totalItems: response.data.totalItems
-        };
+            const response = await axios.get(`${backend}/api/eventos/miseventos/${usuarioID}`, {
+                params,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            return {
+                eventos: response.data.eventos,
+                totalItems: response.data.totalItems
+            };
 
         } catch (error) {
-        console.error('Error en el servicio de eventos:', error);
-        throw error;
+            console.error('Error en el servicio de eventos:', error);
+            throw error;
         }
     },
 
     obtenerEvento: async (eventoID: string): Promise<Evento> => {
         try {
-        const response = await axios.get(`${backend}/api/eventos1/${eventoID}`, {
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        });
-        return response.data;
+            const response = await axios.get(`${backend}/api/eventos1/${eventoID}`, {
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
         } catch (error) {
-        console.error('Error al obtener el evento:', error);
-        throw error;
+            console.error('Error al obtener el evento:', error);
+            throw error;
         }
     },
 
     crearEvento: async (eventoData: Omit<Evento, 'eventoID'>): Promise<Evento> => {
         try {
-        const response = await axios.post(`${backend}/api/eventos2`, eventoData, {
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        });
-        return response.data;
+            const response = await axios.post(`${backend}/api/eventos2`, eventoData, {
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
         } catch (error) {
-        console.error('Error al crear el evento:', error);
-        throw error;
+            console.error('Error al crear el evento:', error);
+            throw error;
         }
     },
 
     actualizarEvento: async (eventoID: string, eventoData: Partial<Evento>): Promise<Evento> => {
         try {
-        const response = await axios.put(`${backend}/api/eventos3/${eventoID}`, eventoData, {
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        });
-        return response.data;
+            const response = await axios.put(`${backend}/api/eventos3/${eventoID}`, eventoData, {
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
         } catch (error) {
-        console.error('Error al actualizar el evento:', error);
-        throw error;
+            console.error('Error al actualizar el evento:', error);
+            throw error;
         }
     },
 
     eliminarEvento: async (eventoID: string): Promise<void> => {
         try {
-        await axios.delete(`${backend}/api/eventos4/${eventoID}`, {
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        });
+            await axios.delete(`${backend}/api/eventos4/${eventoID}`, {
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
         } catch (error) {
-        console.error('Error al eliminar el evento:', error);
-        throw error;
+            console.error('Error al eliminar el evento:', error);
+            throw error;
         }
     }
 };

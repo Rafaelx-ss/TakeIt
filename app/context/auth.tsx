@@ -55,3 +55,8 @@ export const useAuth = () => {
     }
     return context;
 };
+
+export const getUsuario = () => {
+    const { auth } = useAuth();
+    return auth.user;
+};

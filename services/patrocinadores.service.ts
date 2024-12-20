@@ -1,0 +1,1 @@
+// Fechins para patrocinadores <----
