@@ -11,13 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { useAuth } from '@/app/context/auth';
+import { useAuth } from '@/context/auth';
 
 export function UserNav() {
   const { auth, logout } = useAuth();
   const usuario = auth.user;
 
-  console.log('Hola pepe', auth.user.usuarioID);
+  // console.log('Hola pepe', auth.user.usuarioID);
 
   // console.log("AUT::::", auth);
   // console.log("TOKEN:::::", auth.token);

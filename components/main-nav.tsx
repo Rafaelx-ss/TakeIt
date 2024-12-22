@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { UserNav } from '@/components/user-nav';
-import { useAuth } from '@/app/context/auth';
+import { useAuth } from '@/context/auth';
 
 export function MainNav() {
   const { auth, isLoading  } = useAuth();

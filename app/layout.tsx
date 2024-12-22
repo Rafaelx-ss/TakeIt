@@ -4,8 +4,6 @@ import { Inter } from 'next/font/google';
 import { Providers } from '@/components/providers';
 import { MainNav } from '@/components/main-nav';
 import Footer from '@/components/Footer';
-import { AuthProvider } from '@/app/context/auth';
-
 
 const originalError = console.error;
 console.error = (...args) => {
@@ -25,7 +23,7 @@ export const metadata: Metadata = {
   description: 'Encuentra y participa en los mejores eventos deportivos',
 };
 
-export default function RootLayout({
+export default function RootLayout({  
   children,
 }: {
   children: React.ReactNode;
@@ -33,13 +31,11 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
-        <AuthProvider>
-            <Providers>
-              <MainNav />
-                {children}
-            </Providers>
-          <Footer />
-        </AuthProvider>
+        <Providers>
+          <MainNav />
+            {children}
+        </Providers>
+        <Footer />
       </body>
     </html>
   );

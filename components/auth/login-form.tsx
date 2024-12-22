@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
-import { useAuth } from '@/app/context/auth';
+import { useAuth } from '@/context/auth';
 import { backend } from '@/lib/endpoints';
 import axios from 'axios';
 

@@ -19,6 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Pagination } from "@/components/ui/pagination"
 import { Evento } from "@/types/eventos"
 import { EventosService } from "@/services/eventos.service"
+import { useModal } from '@/context/ModalContext';
 
 export default function EventosPage() {
     const [searchQuery, setSearchQuery] = useState("")
@@ -31,6 +32,7 @@ export default function EventosPage() {
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
     const [totalItems, setTotalItems] = useState(0)
     const [error, setError] = useState<string | null>(null)
+    const { showModal } = useModal();
 
     useEffect(() => {
         const cargarEventos = async () => {
@@ -71,17 +73,19 @@ export default function EventosPage() {
     }, [filteredEventos, currentPage, itemsPerPage])
 
 
-    const handleDelete = async (eventoID: number) => {
-        if (window.confirm('¿Estás seguro de que quieres eliminar este evento?')) {
-            try {
-                // await EventosService.eliminarEvento(eventoID.toString())
-                setEventos(eventos.filter(evento => evento.eventoID !== eventoID))
-            } catch (error) {
-                console.error('Error al eliminar el evento:', error)
-                setError('Hubo un problema al eliminar el evento. Por favor, intente de nuevo.')
-            }
-        }
-    }
+    const handleDelete = (eventoID: number) => {
+
+        // if (window.confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+        //     try {
+        //         // await EventosService.eliminarEvento(eventoID.toString())
+        //         setEventos(eventos.filter(evento => evento.eventoID !== eventoID))
+        //     } catch (error) {
+        //         console.error('Error al eliminar el evento:', error)
+        //         setError('Hubo un problema al eliminar el evento. Por favor, intente de nuevo.')
+        //     }
+        // }
+    };
+
 
     const handleSort = (column: keyof Evento) => {
         if (sortColumn === column) {
