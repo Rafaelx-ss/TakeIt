@@ -1,5 +1,13 @@
 "use client";
-
+import { 
+    UsersIcon, 
+    DollarSignIcon, 
+    HandHeartIcon,
+    Medal,
+    ChartNoAxesColumnIncreasing
+} from 'lucide-react';
+import { MetricCard } from '@/components/patrocinadores/metric-card';
+import { SponsorCard } from "@/components/patrocinadores/sponsorcard";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -30,18 +38,43 @@ import {
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function Page() {
+export default function ReportesPage() {
   const [isLoading, setIsLoading] = useState(true);
 
 
 
   return (
+    <div className="p-6 bg-background text-text">
+      {/* Header */}
+      <h1 className="text-2xl font-bold mb-4 text-foreground">Resumen</h1>
+      <div className="p-6 bg-background">
+          {/* Stats Section */}
 
-    <div className="p-6 bg-background">
-        <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-semibold text-foreground">Reportes</h1>
-        </div>
+          <div className="grid grid-cols-3 gap-4 mb-8">
+              <MetricCard
+              title="Participantes totales"
+              value="1442"
+              description="Total de participantes en todos los eventos"
+              icon={UsersIcon}
+              />
+
+              <MetricCard
+              title="Reportes totales"
+              value="5"
+              description="Conteo de todos los reportes recibidos"
+              icon={Medal}
+              />
+
+              <MetricCard
+              title="Experiencia de usuario"
+              value="98%"
+              description="Porcentaje de satisfacción total"
+              icon={ChartNoAxesColumnIncreasing}
+              />
+          </div>
+      </div>
+      <h1 className="text-2xl font-bold mb-4 text-foreground">Reportes</h1>
+
     </div>
-    
   );
 }
