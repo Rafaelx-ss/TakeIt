@@ -17,13 +17,6 @@ export function UserNav() {
   const { auth, logout } = useAuth();
   const usuario = auth.user;
 
-  // console.log('Hola pepe', auth.user.usuarioID);
-
-  // console.log("AUT::::", auth);
-  // console.log("TOKEN:::::", auth.token);
-  // console.log("USUARIO:::::", usuario);
-  // console.log("Nombre:::::", usuario?.nombreUsuario);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -51,7 +44,12 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer flex gap-2"
-          onClick={() => logout()}
+          onClick={
+            () => {
+              window.location.href = '/';
+              logout();
+            }
+          }
         >
           <LogOut className="h-4 w-4" />
           <span>Cerrar Sesión</span>

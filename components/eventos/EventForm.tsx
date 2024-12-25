@@ -23,13 +23,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
 import { Evento } from '@/types/eventos'
 import { EventosService } from '@/services/eventos.service'
 import { useToast } from '@/hooks/use-toast'
 import { Card, CardContent} from '@/components/ui/card'
-import { Categoria, SubCategoria } from '@/types/categorias'
 import { CategoriasService } from '@/services/categorias.service'
+import { EstadosService } from '@/services/estados.service'
+import { getUsuario } from '@/context/auth'
+import { useQuery } from '@tanstack/react-query'
+
 
 const formSchema = z.object({
     nombreEvento: z.string().min(1, 'El nombre del evento es requerido'),
@@ -61,8 +63,6 @@ const formSchema = z.object({
         .regex(/^\d+$/, 'Solo se permiten números')
         .refine((val) => Number(val) > 0 && Number(val) <= 24, 'La duración debe estar entre 1 y 24 horas'),
     kitEvento: z.string().optional(),
-    activoEvento: z.boolean(),
-    estadoEvento: z.boolean(),
     nuevaSubcategoria: z.string().optional()
 })
 
@@ -74,19 +74,20 @@ interface EventFormProps {
 }
 
 export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
-    const [categorias, setCategorias] = useState<Categoria[]>([])
-    const [subCategorias, setSubCategorias] = useState<SubCategoria[]>([])
+    // const [estados, setEstados] = useState<Estado[]>([])
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
     const [showOtherSubcategory, setShowOtherSubcategory] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const usuarioID = getUsuario().usuarioID
     const { toast } = useToast()
 
     const form = useForm<EventFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            nombreEvento: event?.nombreEvento || '',
             categoriaID: event?.categoriaID.toString() || '',
             subCategoriaID: event?.subCategoriaID.toString() || '',
+            nuevaSubcategoria: '',
+            nombreEvento: event?.nombreEvento || '',
             lugarEvento: event?.lugarEvento || '',
             maximoParticipantesEvento: event?.maximoParticipantesEvento?.toString() || '',
             costoEvento: event?.costoEvento || '',
@@ -100,9 +101,6 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
             horaEvento: event?.horaEvento || '',
             duracionEvento: event?.duracionEvento || '',
             kitEvento: event?.kitEvento || '',
-            activoEvento: event?.activoEvento ?? true,
-            estadoEvento: event?.estadoEvento ?? true,
-            nuevaSubcategoria: ''
         },
     })
 
@@ -124,15 +122,13 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                     variant: "success"
                 })
             } else {
-                await EventosService.crearEvento({
+                await EventosService.crearEvento(usuarioID, {
                     ...values,
                     fechaEvento: new Date(values.fechaEvento).toISOString(),
                     estadoID: parseInt(values.estadoID),
                     maximoParticipantesEvento: values.maximoParticipantesEvento.toString(),
                     categoriaID: parseInt(values.categoriaID),
                     subCategoriaID: parseInt(values.subCategoriaID),
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString(),
                     kitEvento: values.kitEvento || '' 
                 })
                 toast({
@@ -155,15 +151,38 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
         }
     }
 
-    useEffect(() => {
-        CategoriasService.obtenerCategoriasForm().then(setCategorias)
-    }, [])
+    // useEffect(() => {
+    //     // CategoriasService.obtenerCategoriasForm().then(setCategorias)
+    //     EstadosService.obtenerEstados().then(setEstados)
+    // }, [])
 
-    useEffect(() => {
-        if (selectedCategoryId) {
-            CategoriasService.obtenerSubCategorias(parseInt(selectedCategoryId)).then(setSubCategorias);
-        }
-    }, [selectedCategoryId]);
+    // useEffect(() => {
+    //     if (selectedCategoryId) {
+    //         CategoriasService.obtenerSubCategorias(parseInt(selectedCategoryId)).then(setSubCategorias);
+    //     }
+    // }, [selectedCategoryId]);
+
+    const { data: estados = [] } = useQuery({
+        queryKey: ['estados'],
+        queryFn: () => EstadosService.obtenerEstados(),
+        staleTime: 2 * 60 * 1000, // 2 minutos
+        gcTime: 10 * 60 * 1000, // 10 minutos
+    });
+
+    const { data: categorias = [] } = useQuery({
+        queryKey: ['categorias'], 
+        queryFn: () => CategoriasService.obtenerCategoriasForm(),
+        staleTime: 2 * 60 * 1000, // 2 minutos
+        gcTime: 10 * 60 * 1000, // 10 minutos
+    });
+
+    const { data: subCategorias = [] } = useQuery({
+        queryKey: ['subcategorias', selectedCategoryId],
+        queryFn: () => CategoriasService.obtenerSubCategorias(parseInt(selectedCategoryId)),
+        enabled: !!selectedCategoryId,
+        staleTime: 2 * 60 * 1000, // 2 minutos 
+        gcTime: 10 * 60 * 1000, // 10 minutos
+    });
 
     return (
         <Card className="max-w-screen-2xl mx-auto shadow-lg">
@@ -397,9 +416,9 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                <SelectItem value="31">Yucatán</SelectItem>
-                                                <SelectItem value="4">Campeche</SelectItem>
-                                                <SelectItem value="23">Quintana Roo</SelectItem>
+                                                {estados.map((estado) => (
+                                                    <SelectItem key={estado.estadoID} value={estado.estadoID.toString()}>{estado.nombreEstado}</SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />
@@ -533,58 +552,15 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                                 )}
                             />
                         </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <FormField
-                                control={form.control}
-                                name="activoEvento"
-                                render={({ field }) => (
-                                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 hover:border-dorado transition-colors">
-                                        <div className="space-y-0.5">
-                                            <FormLabel className="text-base">Evento Activo</FormLabel>
-                                            <FormDescription>
-                                                El evento estará visible para los participantes
-                                            </FormDescription>
-                                        </div>
-                                        <FormControl>
-                                            <Switch
-                                                checked={field.value}
-                                                onCheckedChange={field.onChange}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="estadoEvento"
-                                render={({ field }) => (
-                                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 hover:border-dorado transition-colors">
-                                        <div className="space-y-0.5">
-                                            <FormLabel className="text-base">Estado del Evento</FormLabel>
-                                            <FormDescription>
-                                                Determina si el evento está abierto para inscripciones
-                                            </FormDescription>
-                                        </div>
-                                        <FormControl>
-                                            <Switch
-                                                checked={field.value}
-                                                onCheckedChange={field.onChange}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+                        <div className="flex justify-center">
+                            <Button 
+                                type="submit" 
+                                disabled={isSubmitting}
+                                className="w-1/2"
+                            >
+                                {isSubmitting ? 'Procesando...' : event ? 'Actualizar Evento' : 'Crear Evento'}
+                            </Button>
                         </div>
-
-                        <Button 
-                            type="submit" 
-                            disabled={isSubmitting}
-                            className="w-full bg-dorado hover:bg-dorado/90"
-                        >
-                            {isSubmitting ? 'Procesando...' : event ? 'Actualizar Evento' : 'Crear Evento'}
-                        </Button>
                     </form>
                 </Form>
             </CardContent>

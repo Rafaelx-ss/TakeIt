@@ -16,8 +16,8 @@ export interface Evento {
     horaEvento: string;
     duracionEvento: string;
     kitEvento: string;
-    activoEvento: boolean;
-    estadoEvento: boolean;
-    created_at: string;
-    updated_at: string;
+    activoEvento?: boolean;
+    estadoEvento?: boolean;
+    created_at?: string;
+    updated_at?: string;
 }

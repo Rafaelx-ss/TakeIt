@@ -20,6 +20,7 @@ import { Pagination } from "@/components/ui/pagination"
 import { Evento } from "@/types/eventos"
 import { EventosService } from "@/services/eventos.service"
 import { useModal } from '@/context/ModalContext';
+import { getUsuario } from '@/context/auth'
 
 export default function EventosPage() {
     const [searchQuery, setSearchQuery] = useState("")
@@ -33,13 +34,14 @@ export default function EventosPage() {
     const [totalItems, setTotalItems] = useState(0)
     const [error, setError] = useState<string | null>(null)
     const { showModal } = useModal();
+    const usuarioID = getUsuario().usuarioID
 
     useEffect(() => {
         const cargarEventos = async () => {
             setIsLoading(true)
             try {
                 const data = await EventosService.obtenerEventos({
-                    usuarioID: 1,
+                    usuarioID: usuarioID,
                     page: currentPage,
                     itemsPerPage, 
                     sortColumn,
@@ -206,72 +208,79 @@ export default function EventosPage() {
                                 </TableRow>
                             ))
                         ) : (
-                            paginatedEventos.map((evento) => (
-                                <TableRow key={evento.eventoID}>
-                                    <TableCell className="font-medium">{evento.nombreEvento}</TableCell>
-                                    <TableCell>
-                                        {new Date(evento.fechaEvento).toLocaleDateString()}
-                                        <br />
-                                        {evento.horaEvento}
-                                    </TableCell>
-                                    <TableCell>{evento.lugarEvento}</TableCell>
-                                    <TableCell>
-                                        <div className="max-w-[200px] truncate" title={evento.direccionEvento}>
-                                            {evento.direccionEvento}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>${Number(evento.costoEvento).toFixed(2)}</TableCell>
-                                    <TableCell>{evento.maximoParticipantesEvento}</TableCell>
-                                    <TableCell>
-                                        <span className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap
-                                            ${evento.activoEvento
-                                            ? 'bg-green-100 text-green-800' 
-                                            : 'bg-red-100 text-red-800'}
-                                            xs:px-3 xs:py-1.5 xs:text-xs`}
-                                        >
-                                            {evento.activoEvento ? 'En curso' : 'Terminado'}
-                                        </span>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <Link href={`/home/eventos/${evento.eventoID}`}>
+                            paginatedEventos.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={8} className="text-center">No hay eventos disponibles</TableCell>
+                                </TableRow>
+
+                            ) : (
+                                paginatedEventos.map((evento) => (
+                                    <TableRow key={evento.eventoID}>
+                                        <TableCell className="font-medium">{evento.nombreEvento}</TableCell>
+                                        <TableCell>
+                                            {new Date(evento.fechaEvento).toLocaleDateString()}
+                                            <br />
+                                            {evento.horaEvento}
+                                        </TableCell>
+                                        <TableCell>{evento.lugarEvento}</TableCell>
+                                        <TableCell>
+                                            <div className="max-w-[200px] truncate" title={evento.direccionEvento}>
+                                                {evento.direccionEvento}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>${Number(evento.costoEvento).toFixed(2)}</TableCell>
+                                        <TableCell>{evento.maximoParticipantesEvento}</TableCell>
+                                        <TableCell>
+                                            <span className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap
+                                                ${evento.activoEvento
+                                                ? 'bg-green-100 text-green-800' 
+                                                : 'bg-red-100 text-red-800'}
+                                                xs:px-3 xs:py-1.5 xs:text-xs`}
+                                            >
+                                                {evento.activoEvento ? 'En curso' : 'Terminado'}
+                                            </span>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <Link href={`/home/eventos/${evento.eventoID}`}>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="h-8 w-8 p-0 text-dorado hover:text-black hover:bg-dorado"
+                                                            >
+                                                                <Pencil className="h-4 w-4" />
+                                                            </Button>
+                                                        </Link>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>Editar evento</p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
                                                         <Button
+                                                            onClick={() => handleDelete(evento.eventoID)}
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="h-8 w-8 p-0 text-dorado hover:text-black hover:bg-dorado"
+                                                            className="h-8 w-8 p-0 text-error hover:text-error-hover hover:bg-error-bg-hover hover:border-error"
                                                         >
-                                                            <Pencil className="h-4 w-4" />
+                                            <Trash className="h-4 w-4" />
                                                         </Button>
-                                                    </Link>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>Editar evento</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <Button
-                                                        onClick={() => handleDelete(evento.eventoID)}
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        className="h-8 w-8 p-0 text-error hover:text-error-hover hover:bg-error-bg-hover hover:border-error"
-                                                    >
-                                        <Trash className="h-4 w-4" />
-                                                    </Button>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>Eliminar evento</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    </TableCell>
-                                </TableRow>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>Eliminar evento</p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
                             ))
-                        )}
+                        }
                     </TableBody>
                 </Table>
             </div>

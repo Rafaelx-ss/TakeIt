@@ -59,9 +59,9 @@ export const EventosService = {
         }
     },
 
-    crearEvento: async (eventoData: Omit<Evento, 'eventoID'>): Promise<Evento> => {
+    crearEvento: async (usuarioID: number, eventoData: Omit<Evento, 'eventoID'>): Promise<Evento> => {
         try {
-            const response = await axios.post(`${backend}/api/eventos2`, eventoData, {
+            const response = await axios.post(`${backend}/api/eventos/crear/${usuarioID}`, eventoData, {
                 headers: {
                 'Content-Type': 'application/json'
                 }
