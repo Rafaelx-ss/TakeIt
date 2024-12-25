@@ -242,7 +242,7 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                                         <Select 
                                             onValueChange={(value) => {
                                                 field.onChange(value);
-                                                setShowOtherSubcategory(value === "99");
+                                                setShowOtherSubcategory(value === "0");
                                             }} 
                                             defaultValue={field.value}
                                         >
@@ -260,7 +260,7 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                                                         {subCategoria.nombreSubcategoria}
                                                     </SelectItem>
                                                 ))}
-                                                <SelectItem value="99">Otro (Agregar subcategoría)</SelectItem>
+                                                <SelectItem value="0">Otro (Agregar subcategoría)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />
