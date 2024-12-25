@@ -1,11 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -19,12 +17,6 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import {
     Select,
     SelectContent,
     SelectItem,
@@ -32,14 +24,17 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { cn } from '@/lib/utils'
 import { Evento } from '@/types/eventos'
 import { EventosService } from '@/services/eventos.service'
 import { useToast } from '@/hooks/use-toast'
 import { Card, CardContent} from '@/components/ui/card'
+import { Categoria, SubCategoria } from '@/types/categorias'
+import { CategoriasService } from '@/services/categorias.service'
 
 const formSchema = z.object({
     nombreEvento: z.string().min(1, 'El nombre del evento es requerido'),
+    categoriaID: z.string().min(1, 'La categoría del evento es requerida'),
+    subCategoriaID: z.string().min(1, 'La subcategoría del evento es requerida'),
     lugarEvento: z.string().min(1, 'El lugar del evento es requerido'),
     maximoParticipantesEvento: z.string()
         .min(1, 'El máximo de participantes es requerido')
@@ -59,7 +54,7 @@ const formSchema = z.object({
     telefonoEvento: z.string()
         .length(10, 'El teléfono debe tener exactamente 10 dígitos')
         .regex(/^\d+$/, 'El teléfono solo debe contener números'),
-    fechaEvento: z.date().refine((date) => date > new Date(), 'La fecha debe ser posterior a hoy'),
+    fechaEvento: z.string().min(1, 'La fecha es requerida'),
     horaEvento: z.string().min(1, 'La hora es requerida'),
     duracionEvento: z.string()
         .min(1, 'La duración es requerida')
@@ -68,16 +63,21 @@ const formSchema = z.object({
     kitEvento: z.string().optional(),
     activoEvento: z.boolean(),
     estadoEvento: z.boolean(),
+    nuevaSubcategoria: z.string().optional()
 })
 
 type EventFormValues = z.infer<typeof formSchema>
 
 interface EventFormProps {
-    event?: Evento
+    event?: Evento  
     onSubmitSuccess: () => void
 }
 
 export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
+    const [categorias, setCategorias] = useState<Categoria[]>([])
+    const [subCategorias, setSubCategorias] = useState<SubCategoria[]>([])
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+    const [showOtherSubcategory, setShowOtherSubcategory] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { toast } = useToast()
 
@@ -85,6 +85,8 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
         resolver: zodResolver(formSchema),
         defaultValues: {
             nombreEvento: event?.nombreEvento || '',
+            categoriaID: event?.categoriaID.toString() || '',
+            subCategoriaID: event?.subCategoriaID.toString() || '',
             lugarEvento: event?.lugarEvento || '',
             maximoParticipantesEvento: event?.maximoParticipantesEvento?.toString() || '',
             costoEvento: event?.costoEvento || '',
@@ -94,12 +96,13 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
             estadoID: event?.estadoID?.toString() || '',
             direccionEvento: event?.direccionEvento || '',
             telefonoEvento: event?.telefonoEvento || '',
-            fechaEvento: event?.fechaEvento ? new Date(event.fechaEvento) : new Date(),
+            fechaEvento: event?.fechaEvento ? new Date(event.fechaEvento).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
             horaEvento: event?.horaEvento || '',
             duracionEvento: event?.duracionEvento || '',
             kitEvento: event?.kitEvento || '',
             activoEvento: event?.activoEvento ?? true,
             estadoEvento: event?.estadoEvento ?? true,
+            nuevaSubcategoria: ''
         },
     })
 
@@ -109,7 +112,7 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
             if (event) {
                 await EventosService.actualizarEvento(event.eventoID.toString(), {
                     ...values,
-                    fechaEvento: values.fechaEvento.toISOString(),
+                    fechaEvento: new Date(values.fechaEvento).toISOString(),
                     estadoID: parseInt(values.estadoID),
                     maximoParticipantesEvento: values.maximoParticipantesEvento.toString(),
                     categoriaID: event.categoriaID,
@@ -123,11 +126,11 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
             } else {
                 await EventosService.crearEvento({
                     ...values,
-                    fechaEvento: values.fechaEvento.toISOString(),
+                    fechaEvento: new Date(values.fechaEvento).toISOString(),
                     estadoID: parseInt(values.estadoID),
                     maximoParticipantesEvento: values.maximoParticipantesEvento.toString(),
-                    categoriaID: 1,
-                    subCategoriaID: 1,
+                    categoriaID: parseInt(values.categoriaID),
+                    subCategoriaID: parseInt(values.subCategoriaID),
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString(),
                     kitEvento: values.kitEvento || '' 
@@ -152,12 +155,22 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
         }
     }
 
+    useEffect(() => {
+        CategoriasService.obtenerCategoriasForm().then(setCategorias)
+    }, [])
+
+    useEffect(() => {
+        if (selectedCategoryId) {
+            CategoriasService.obtenerSubCategorias(parseInt(selectedCategoryId)).then(setSubCategorias);
+        }
+    }, [selectedCategoryId]);
+
     return (
         <Card className="max-w-screen-2xl mx-auto shadow-lg">
             <CardContent className="p-6">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <FormField
                                 control={form.control}
                                 name="nombreEvento"
@@ -171,6 +184,90 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                                     </FormItem>
                                 )}
                             />
+
+                            <FormField
+                                control={form.control}
+                                name="categoriaID"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Categoría</FormLabel>
+                                            <Select 
+                                                onValueChange={(value) => {
+                                                    field.onChange(value);
+                                                    setSelectedCategoryId(value);
+                                                }} 
+                                                defaultValue={field.value}
+                                            >
+                                            <FormControl>
+                                                <SelectTrigger className="focus:ring-dorado">
+                                                    <SelectValue placeholder="Selecciona una categoría" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {categorias.map((categoria) => (
+                                                    <SelectItem key={categoria.categoriaID} value={categoria.categoriaID.toString()}>{categoria.nombreCategoria}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="subCategoriaID"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Subcategoría</FormLabel>
+                                        <Select 
+                                            onValueChange={(value) => {
+                                                field.onChange(value);
+                                                setShowOtherSubcategory(value === "99");
+                                            }} 
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger className="focus:ring-dorado">
+                                                    <SelectValue placeholder="Selecciona una subcategoría" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {subCategorias.map((subCategoria) => (
+                                                    <SelectItem 
+                                                        key={subCategoria.subcategoriaID} 
+                                                        value={subCategoria.subcategoriaID.toString()}
+                                                    >
+                                                        {subCategoria.nombreSubcategoria}
+                                                    </SelectItem>
+                                                ))}
+                                                <SelectItem value="99">Otro (Agregar subcategoría)</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {showOtherSubcategory && (
+                                <FormField
+                                    control={form.control}
+                                    name="nuevaSubcategoria"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Nueva Subcategoría</FormLabel>
+                                            <FormControl>
+                                                <Input 
+                                                    placeholder="Ingrese la nueva subcategoría" 
+                                                    {...field} 
+                                                    className="focus-visible:ring-dorado" 
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            )}
 
                             <FormField
                                 control={form.control}
@@ -353,49 +450,23 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="fechaEvento"
                                 render={({ field }) => (
-                                    <FormItem className="flex flex-col">
+                                    <FormItem>
                                         <FormLabel>Fecha del Evento</FormLabel>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <FormControl>
-                                                    <Button
-                                                        variant={"outline"}
-                                                        className={cn(
-                                                            "w-full pl-3 text-left font-normal focus-visible:ring-dorado",
-                                                            !field.value && "text-muted-foreground"
-                                                        )}
-                                                    >
-                                                        {field.value ? (
-                                                            format(field.value, "PPP")
-                                                        ) : (
-                                                            <span>Selecciona una fecha</span>
-                                                        )}
-                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                    </Button>
-                                                </FormControl>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-auto p-0" align="start">
-                                                <Calendar
-                                                    mode="single"
-                                                    selected={field.value}
-                                                    onSelect={field.onChange}
-                                                    disabled={(date) =>
-                                                        date < new Date() || date < new Date("1900-01-01")
-                                                    }
-                                                    initialFocus
-                                                />
-                                            </PopoverContent>
-                                        </Popover>
+                                        <FormControl>
+                                            <Input 
+                                                type="date"
+                                                {...field}
+                                                className="focus-visible:ring-dorado"
+                                            />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="horaEvento"
