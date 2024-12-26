@@ -31,9 +31,11 @@ export default function ReportesPage() {
       // Replace this with your actual data fetching logic
       await new Promise(resolve => setTimeout(resolve, 1500));
       setReports([
-        { id: 1, participant: "John Doe", type: "Event Feedback", status: "Pending" },
-        { id: 2, participant: "Jane Smith", type: "Incident Report", status: "Reviewed" },
-        { id: 3, participant: "Alice Johnson", type: "Suggestion", status: "Closed" },
+        { id: 1, participant: "Juan Pérez", type: "Queja", status: "Pending" },
+        { id: 2, participant: "María Lopez", type: "Sugerencia", status: "Reviewed" },
+        { id: 3, participant: "Ariel Martinez", type: "Queja", status: "Pending" },
+        { id: 4, participant: "HectorMen86", type: "Queja", status: "Pending" },
+        { id: 5, participant: "ChuloBob_CR7", type: "Queja", status: "Pending" },
       ] as Report[]);
       setIsLoading(false);
     };
@@ -74,7 +76,7 @@ export default function ReportesPage() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]"># Reporte</TableHead>
+            <TableHead className="w-[100px]">#</TableHead>
             <TableHead>Participante</TableHead>
             <TableHead>Tipo de Reporte</TableHead>
             <TableHead>Estado</TableHead>
