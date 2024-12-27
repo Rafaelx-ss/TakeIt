@@ -4,12 +4,11 @@ import { useState, useEffect } from 'react'
 import { Users, DollarSign, ShoppingBag, TrendingUp } from 'lucide-react'
 import { Navigation } from '@/components/examples/components_navigation'
 import { DataTable } from '@/components/examples/components_data-table'
-import { CalendarPicker } from '@/components/examples/components_calendar-picker'
 import { BarChartComponent } from '@/components/examples/components_bar-chart'
 import { TestimonialCarousel } from '@/components/examples/components_testimonial-carousel'
 import { ProductCard } from '@/components/examples/components_product-card'
 import { FAQAccordion } from '@/components/examples/components_faq-accordion'
-import { MultiLineChart } from '@/components/examples/components_multi-line-chart'
+import { MultiLineChart } from '@/components/examples/components_multi-line-chart' 
 import { StatCard } from '@/components/examples/components_stat-card'
 import { UserProfileCard } from '@/components/examples/components_user-profile-card'
 import { TaskList } from '@/components/examples/components_task-list'
@@ -22,7 +21,6 @@ import { Stopwatch } from '@/components/examples/components_stopwatch'
 import { WeatherCard } from '@/components/examples/components_weather-card'
 import { CircularProgress } from '@/components/examples/components_circular-progress'
 import { TeamCard } from '@/components/examples/components_team-card'
-import { EventCalendar } from '@/components/examples/components_event-calendar'
 import { Leaderboard } from '@/components/examples/components_leaderboard'
 import { RadarChartComponent } from '@/components/examples/components_radar-chart'
 import { NotificationList } from '@/components/examples/components_notification-list'
@@ -348,12 +346,7 @@ export default function DashboardPage() {
           <h2 className="text-2xl font-semibold mb-4">Preguntas Frecuentes</h2>
           <FAQAccordion />
         </section>
-        
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Selector de Fecha</h2>
-          <CalendarPicker />
-        </section>
-        
+
         <section>
           <h2 className="text-2xl font-semibold mb-4">Gráfico de Barras</h2>
           <BarChartComponent />
@@ -450,11 +443,6 @@ export default function DashboardPage() {
             description="Nuestro equipo de expertos en desarrollo de software"
             members={data.teamMembers}
           />
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Calendario de Eventos</h2>
-          <EventCalendar events={data.events} />
         </section>
 
         <section>

@@ -214,6 +214,9 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                                                 onValueChange={(value) => {
                                                     field.onChange(value);
                                                     setSelectedCategoryId(value);
+                                                    form.setValue('subCategoriaID', '');
+                                                    form.setValue('nuevaSubcategoria', '');
+                                                    setShowOtherSubcategory(false);
                                                 }} 
                                                 defaultValue={field.value}
                                             >
@@ -235,7 +238,7 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
 
                             <FormField
                                 control={form.control}
-                                name="subCategoriaID"
+                                name="subCategoriaID" 
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Subcategoría</FormLabel>
@@ -243,12 +246,13 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
                                             onValueChange={(value) => {
                                                 field.onChange(value);
                                                 setShowOtherSubcategory(value === "0");
-                                            }} 
-                                            defaultValue={field.value}
+                                            }}
+                                            value={field.value}
+                                            disabled={!selectedCategoryId}
                                         >
                                             <FormControl>
                                                 <SelectTrigger className="focus:ring-dorado">
-                                                    <SelectValue placeholder="Selecciona una subcategoría" />
+                                                    <SelectValue placeholder={selectedCategoryId ? "Selecciona una subcategoría" : "Primero selecciona una categoría"} />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
