@@ -6,12 +6,22 @@ export const PatrocinadoresService = {
     // Obtener patrocinadores con filtros
     obtenerPatrocinadores: async (usuarioID: number): Promise<Patrocinador[] | undefined> => {
         try {
+            // Realiza la solicitud al endpoint del backend
             const response = await axios.get(`${backend}/api/patrocinadores/${usuarioID}`, {
                 headers: { 'Content-Type': 'application/json' },
             });
-            return response.data;
-        } catch (error) {
-            console.log(error);
+
+            if (response.status === 200 && Array.isArray(response.data)) {
+                return response.data.map((patrocinador: Patrocinador) => ({
+                    ...patrocinador,
+                    image_url: patrocinador.image_url || null, 
+                }));
+            } else {
+                console.error('Respuesta inesperada del servidor:', response.data);
+                return undefined;
+            }
+        } catch (error: any) {
+            console.error('Error al obtener los patrocinadores:', error.message || error);
         }
 
         return undefined;

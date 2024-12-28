@@ -21,7 +21,7 @@ export default function Page() {
     const [sponsors, setSponsors] = useState<Patrocinador[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { auth } = useAuth();
-    const usuarioID = auth.user?.usuarioID; // Asegúrate de que el ID del usuario esté disponible
+    const usuarioID = auth.user?.usuarioID; 
 
     useEffect(() => {
         const fetchSponsors = async () => {
@@ -92,10 +92,10 @@ export default function Page() {
                 .map((sponsor) => (
                 <SponsorCard
                     key={sponsor.patrocinadorID}
-                    logo={sponsor.fotoPatrocinador || '/default-logo.png'} // Valor predeterminado
+                    logo={sponsor.image_url || '/default-logo.png'} 
                     namepatro={sponsor.nombrePatrocinador}
                     representative={sponsor.representantePatrocinador}
-                    isState={sponsor.estadoPatrocinador ? 1 : 0} // Convertir booleano a número
+                    isState={sponsor.estadoPatrocinador ? 1 : 0} 
                 />
                 ))}
         </div>

@@ -10,6 +10,7 @@ export interface Patrocinador {
     numeroRepresentantePatrocinador: string; // Número de contacto del representante
     activoPatrocinador: boolean; // Indicador de si el patrocinador está activo (tinyint 1)
     estadoPatrocinador: boolean; // Indicador del estado del patrocinador (tinyint 1)
+    image_url?: string | null;
     created_at?: string | null; // Fecha de creación (puede ser nula)
     updated_at?: string | null; // Fecha de actualización (puede ser nula)
 }
