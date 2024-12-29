@@ -165,14 +165,14 @@ export function EventForm({ event, onSubmitSuccess }: EventFormProps) {
     const { data: estados = [] } = useQuery({
         queryKey: ['estados'],
         queryFn: () => EstadosService.obtenerEstados(),
-        staleTime: 2 * 60 * 1000, // 2 minutos
+        staleTime: 30 * 60 * 1000, // 30 minutos
         gcTime: 10 * 60 * 1000, // 10 minutos
     });
 
     const { data: categorias = [] } = useQuery({
         queryKey: ['categorias'], 
         queryFn: () => CategoriasService.obtenerCategoriasForm(),
-        staleTime: 2 * 60 * 1000, // 2 minutos
+        staleTime: 30 * 60 * 1000, // 30 minutos
         gcTime: 10 * 60 * 1000, // 10 minutos
     });
 
