@@ -20,25 +20,27 @@ import {
 import { Button } from '@/components/ui/button';
 
 interface SponsorCardProps {
+    patrocinadorID: number; 
     logo: string;
     namepatro: string;
     representative: string;
-    isState: number; // 1 para "Activo", 0 para "Inactivo"
+    activoPatrocinador: number; 
     onEdit?: () => void;
-    onDelete?: () => void;
+    onDelete?: (id: number) => void; 
 }
 
 export function SponsorCard({
+    patrocinadorID,
     logo,
     namepatro,
     representative,
-    isState,
+    activoPatrocinador,
     onEdit,
     onDelete,
 }: SponsorCardProps) {
-    const statusText = isState === 1 ? 'Activo' : 'Inactivo';
-    const StatusIcon = isState === 1 ? CheckCircle : XCircle;
-    const statusColor = isState === 1 ? 'text-success' : 'text-error';
+    const statusText = activoPatrocinador === 1 ? 'Activo' : 'Inactivo';
+    const StatusIcon = activoPatrocinador === 1 ? CheckCircle : XCircle;
+    const statusColor = activoPatrocinador === 1 ? 'text-success' : 'text-error';
 
     return (
         <motion.div
@@ -100,7 +102,7 @@ export function SponsorCard({
                 <Tooltip>
                 <TooltipTrigger asChild>
                     <Button
-                    onClick={onDelete}
+                    onClick={() => onDelete && onDelete(patrocinadorID)}
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8 p-0 text-error hover:text-error-hover hover:bg-error-bg-hover hover:border-error"

@@ -3,10 +3,8 @@ import { backend } from '@/lib/endpoints';
 import { Patrocinador } from '@/types/patrocinadores';
 
 export const PatrocinadoresService = {
-    // Obtener patrocinadores con filtros
-    obtenerPatrocinadores: async (usuarioID: number): Promise<Patrocinador[] | undefined> => {
+    obtenerPatrocinadores: async (usuarioID: string): Promise<Patrocinador[] | undefined> => {
         try {
-            // Realiza la solicitud al endpoint del backend
             const response = await axios.get(`${backend}/api/patrocinadores/${usuarioID}`, {
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -26,6 +24,20 @@ export const PatrocinadoresService = {
 
         return undefined;
     },
+
+    // Eliminar un patrocinador (cambiar estado a inactivo)
+    eliminarPatrocinador: async (patrocinadorID: string): Promise<void> => {
+        try {
+            await axios.delete(`${backend}/api/patrocinadores/delete/${patrocinadorID}`, {
+                headers: { 'Content-Type': 'application/json' },
+            });
+            console.log("correcto");
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+////////////////////////////////////////
 
     // Crear un patrocinador
     crearPatrocinador: async (
@@ -78,18 +90,6 @@ export const PatrocinadoresService = {
             console.log(error);
         }
         return undefined;
-    },
-
-    // Eliminar un patrocinador (cambiar estado a inactivo)
-    eliminarPatrocinador: async (patrocinadorID: string): Promise<void> => {
-        try {
-            await axios.delete(`${backend}/api/patrocinadores/${patrocinadorID}`, {
-                headers: { 'Content-Type': 'application/json' },
-            });
-            console.log("correcto");
-        } catch (error) {
-            console.log(error);
-        }
     },
 
     // Alternar el estado activo/inactivo del patrocinador

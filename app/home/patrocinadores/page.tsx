@@ -16,11 +16,13 @@ import { useState, useEffect } from 'react';
 import { PatrocinadoresService } from '@/services/patrocinadores.service';
 import { Patrocinador } from '@/types/patrocinadores';
 import { useAuth } from '@/context/auth';
+import { useModal } from '@/context/ModalContext';
 
 export default function Page() {
     const [sponsors, setSponsors] = useState<Patrocinador[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { auth } = useAuth();
+    const { showModal } = useModal();
     const usuarioID = auth.user?.usuarioID; 
 
     useEffect(() => {
@@ -33,9 +35,24 @@ export default function Page() {
                 setIsLoading(false);
             }
         };
-
         fetchSponsors();
     }, [usuarioID]);
+
+    const handleDelete = async (patrocinadorID: number) => {
+        showModal({
+            title: 'Confirmar eliminación',
+            description: '¿Estás seguro de que deseas eliminar este patrocinador?',
+            variant: 'warning',
+            onConfirm: async () => {
+                try {
+                    await PatrocinadoresService.eliminarPatrocinador(patrocinadorID.toString());
+                    setSponsors(sponsors.filter(sponsor => sponsor.patrocinadorID !== patrocinadorID));
+                } catch (error) {
+                    console.error('Error al eliminar el patrocinador:', error);
+                }
+            },
+        });
+    };
 
     return (
 
@@ -88,14 +105,16 @@ export default function Page() {
                 </div>
                 ))
             : sponsors
-                .filter((sponsor) => sponsor.activoPatrocinador === true)
+                .filter((sponsor) => sponsor.estadoPatrocinador === true)
                 .map((sponsor) => (
                 <SponsorCard
                     key={sponsor.patrocinadorID}
+                    patrocinadorID={sponsor.patrocinadorID} 
                     logo={sponsor.image_url || '/default-logo.png'} 
                     namepatro={sponsor.nombrePatrocinador}
                     representative={sponsor.representantePatrocinador}
-                    isState={sponsor.estadoPatrocinador ? 1 : 0} 
+                    activoPatrocinador={sponsor.activoPatrocinador ? 1 : 0} 
+                    onDelete={handleDelete}
                 />
                 ))}
         </div>
