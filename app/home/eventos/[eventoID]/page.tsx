@@ -43,7 +43,7 @@ export default function EventPage() {
                 </Button>
 
                 
-            </div>
+            </div> 
             <EventForm 
                 event={eventoID === 'new' ? undefined : event as Evento} 
                 onSubmitSuccess={handleSubmitSuccess} 
