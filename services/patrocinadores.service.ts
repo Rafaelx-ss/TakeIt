@@ -3,17 +3,20 @@ import { backend } from '@/lib/endpoints';
 import { Patrocinador } from '@/types/patrocinadores';
 
 export const PatrocinadoresService = {
-    obtenerPatrocinadores: async (usuarioID: string): Promise<Patrocinador[] | undefined> => {
+    obtenerPatrocinadores: async (usuarioID: string): Promise<{ patrocinadores: Patrocinador[], totalPatrocinadores: number } | undefined> => {
         try {
             const response = await axios.get(`${backend}/api/patrocinadores/${usuarioID}`, {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            if (response.status === 200 && Array.isArray(response.data)) {
-                return response.data.map((patrocinador: Patrocinador) => ({
-                    ...patrocinador,
-                    image_url: patrocinador.image_url || null, 
-                }));
+            if (response.status === 200 && Array.isArray(response.data.data)) {
+                return {
+                    patrocinadores: response.data.data.map((patrocinador: Patrocinador) => ({
+                        ...patrocinador,
+                        image_url: patrocinador.image_url || null, 
+                    })),
+                    totalPatrocinadores: response.data.totalPatrocinadores
+                };
             } else {
                 console.error('Respuesta inesperada del servidor:', response.data);
                 return undefined;

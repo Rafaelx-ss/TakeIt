@@ -20,6 +20,7 @@ import { useModal } from '@/context/ModalContext';
 
 export default function Page() {
     const [sponsors, setSponsors] = useState<Patrocinador[]>([]);
+    const [totalPatrocinadores, setTotalPatrocinadores] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const { auth } = useAuth();
     const { showModal } = useModal();
@@ -30,7 +31,8 @@ export default function Page() {
             if (usuarioID) {
                 const data = await PatrocinadoresService.obtenerPatrocinadores(usuarioID);
                 if (data) {
-                    setSponsors(data);
+                    setSponsors(data.patrocinadores);
+                    setTotalPatrocinadores(data.totalPatrocinadores);
                 }
                 setIsLoading(false);
             }
@@ -65,7 +67,7 @@ export default function Page() {
         <div className="grid grid-cols-3 gap-4 mb-8">
             <MetricCard
             title="Total de patrocinadores"
-            value="15"
+            value={totalPatrocinadores.toString()}
             description="Patrocinadores registrados"
             icon={HandHeartIcon}
             />
