@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { UsersIcon, Medal, BarChartIcon } from 'lucide-react';
-import { MetricCard } from '@/components/ui/metric-card';
+import { User, Medal, BarChart } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,6 +13,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
+import ReportModal from "@/components/modal/ReportModal";
+import { getUsuario } from '@/context/auth'
+import { DasboardService } from "@/services/dashboard.service"
+import { ReportesService } from "@/services/reportes.service"
+import { Reporte } from "@/types/reportes"
+
 
 interface Report {
   id: number;
@@ -24,54 +30,108 @@ interface Report {
 export default function ReportesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [reports, setReports] = useState<Report[]>([]);
+  const [totalEventos, setTotalEventos] = useState<number>(0);
+  const [totalReportes, setTotalReportes] = useState<number>(0);
+  const [dataReportes, setDataReportes] = useState<Reporte[]>([]);
+  const [error, setError] = useState<string | null>(null)
+  const [selectedReport, setSelectedReport] = useState<Reporte | null>(null);
 
-  // Simulating data fetching
+
+  const usuarioID = getUsuario().usuarioID
+
   useEffect(() => {
+    if (!usuarioID) return; // No ejecutar si usuarioID no está definido
+
     const fetchData = async () => {
-      // Replace this with your actual data fetching logic
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setReports([
-        { id: 1, participant: "Juan Pérez", type: "Queja", status: "Pending" },
-        { id: 2, participant: "María Lopez", type: "Sugerencia", status: "Reviewed" },
-        { id: 3, participant: "Ariel Martinez", type: "Queja", status: "Pending" },
-        { id: 4, participant: "HectorMen86", type: "Queja", status: "Pending" },
-        { id: 5, participant: "ChuloBob_CR7", type: "Queja", status: "Pending" },
-      ] as Report[]);
-      setIsLoading(false);
+      try {
+        const data = await DasboardService.totalparticipantes(usuarioID);
+        setTotalEventos(data.TotalEventos);
+      } catch (error) {
+        console.error('Error al cargar eventos:', error);
+        setError('Hubo un problema al cargar los reportes. Por favor, intente de nuevo más tarde');
+      }
     };
 
+    const fetchReportes = async () => {
+      try {
+        const data = await ReportesService.reportestotales(usuarioID);
+        setTotalReportes(data.reportesTotal);
+      } catch (error) {
+        console.error('Error al cargar reportes:', error);
+      }
+    };
+
+
+    const fetchdatReportes = async () => {
+      try {
+        const data = await ReportesService.reportesEventos(usuarioID);
+        setDataReportes(data);
+      } catch (error) {
+        console.error('Error al cargar reportes:', error);
+      }
+    };
+
+    fetchdatReportes();
+    fetchReportes();
     fetchData();
-  }, []);
+    setIsLoading(false);    
+  }, [usuarioID]); // Agregar usuarioID como dependencia para asegurarte de que se ejecuta cuando cambia
+
+console.log(dataReportes);
+
+  const [open, setOpen] = useState(false);
+
+
+
 
   return (
     <div className="p-6 bg-background text-text">
       {/* Header */}
-      <h1 className="text-2xl font-bold mb-4 text-foreground">Resumen</h1>
-      <div className="p-6 bg-background">
-          {/* Stats Section */}
-          <div className="grid grid-cols-3 gap-4 mb-8">
-              <MetricCard
-              title="Participantes totales"
-              value="1442"
-              description="Total de participantes en todos los eventos"
-              icon={UsersIcon}
-              />
 
-              <MetricCard
-              title="Reportes totales"
-              value="5"
-              description="Conteo de todos los reportes recibidos"
-              icon={Medal}
-              />
 
-              <MetricCard
-              title="Experiencia de usuario"
-              value="98%"
-              description="Porcentaje de satisfacción total"
-              icon={BarChartIcon}
-              />
-          </div>
+
+      <div className="flex justify-center gap-8 mb-4">
+        <Card className="bg-neutral-900 text-white shadow-lg rounded-lg h-30 w-80">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total de participantes en todos los eventos</CardTitle>
+            <User className="h-6 w-6 text-dorado" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalEventos}</div>
+          </CardContent>
+          <CardDescription className="text-sm text-muted-foreground flex justify-center mt-2 mb-2">
+            Total de participantes en todos los eventos
+          </CardDescription>
+        </Card>
+
+        <Card className="bg-neutral-900 text-white shadow-lg rounded-lg h-30 w-80">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Experiencia de usuario</CardTitle>
+            <Medal className="h-6 w-6 text-dorado" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalReportes}</div>
+          </CardContent>
+          <CardDescription className="text-sm text-muted-foreground flex justify-center mt-2 mb-2">
+            Conteo de todos los reportes recibidos
+          </CardDescription>
+        </Card>
+
+        <Card className="bg-neutral-900 text-white shadow-lg rounded-lg h-30 w-80">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Tasa de actividad</CardTitle>
+            <BarChart className="h-6 w-6 text-dorado" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">98%</div>
+          </CardContent>
+          <CardDescription className="text-sm text-muted-foreground flex justify-center mt-2 mb-2">
+            Porcentaje de satisfacción total
+          </CardDescription>
+        </Card>
       </div>
+
+
       <h1 className="text-2xl font-bold mb-4 text-foreground">Reportes</h1>
       <Table>
         <TableHeader>
@@ -97,23 +157,26 @@ export default function ReportesPage() {
               </TableRow>
             ))
           ) : (
-            reports.map((report) => (
-              <TableRow key={report.id}>
-                <TableCell>{report.id}</TableCell>
-                <TableCell>{report.participant}</TableCell>
-                <TableCell>{report.type}</TableCell>
+            dataReportes.map((report) => (
+              <TableRow key={report.reporteID}>
+                <TableCell>{report.reporteID}</TableCell>
+                <TableCell>{report.nombreUsuario}</TableCell>
+                <TableCell>{report.Tipo}</TableCell>
                 <TableCell>
-                  <span className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap
-                    ${report.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 
-                      report.status === 'Reviewed' ? 'bg-blue-100 text-blue-800' : 
-                      'bg-green-100 text-green-800'}
-                    xs:px-3 xs:py-1.5 xs:text-xs`}
-                  >
-                    {report.status}
+                    <span className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap
+                    ${report.activoReporte === 1 ? 'bg-yellow-100 text-yellow-800' :
+                      report.activoReporte === 0 ? 'bg-blue-100 text-blue-800' :
+                      'bg-green-100 text-green-800'}`}
+                    >
+                    {report.activoReporte === 1 ? 'Pendiente' : 'Resuelto'}
                   </span>
                 </TableCell>
                 <TableCell className="text-right">
                   <Button
+                    onClick={() => {
+                      setSelectedReport(report); 
+                      setOpen(true);
+                    }}
                     variant="ghost"
                     size="sm"
                     className="h-8 px-2 text-primary hover:text-primary-foreground hover:bg-primary"
@@ -121,11 +184,24 @@ export default function ReportesPage() {
                     Mostrar detalles
                   </Button>
                 </TableCell>
+                {selectedReport && (
+                  <ReportModal isOpen={open} onClose={() => setOpen(false)} 
+                    ID={usuarioID}
+                    Tipo={selectedReport.Tipo}
+                    descripcion={selectedReport.descripcion}
+                    detalle={selectedReport.detalle}
+                    nombreEvento={selectedReport.nombreEvento}
+                    nombreUsuario={selectedReport.nombreUsuario}
+                    fecha={selectedReport.created_at}
+                  />
+                )}
               </TableRow>
             ))
           )}
         </TableBody>
       </Table>
+
+      
     </div>
   );
 }
