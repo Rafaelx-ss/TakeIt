@@ -13,9 +13,6 @@ export const ReportesService = {
     reportestotales: async (usuarioID: string): Promise<Reportest> => {
         try {
             const response = await axios.get(`${backend}/api/reportes/${usuarioID}`);
-            console.log(response.data);
-
-        
             const reportes: Reportest = { reportesTotal: response.data.data };
 
             return reportes;
@@ -32,6 +29,18 @@ export const ReportesService = {
         try {
             const response = await axios.get(`${backend}/api/reportesEventos/${usuarioID}`);
             return response.data.data;
+        } catch (error) {
+            console.error("Error al obtener los reportes:", error);
+            throw error; 
+        }
+    },
+
+    
+    updateReportestatus: async (usuarioID: string | number): Promise<Reporte[]> => {
+        try {
+            const response = await axios.put(`${backend}/api/updatereportesstatus/${usuarioID}`);
+            return response.data.success;
+
         } catch (error) {
             console.error("Error al obtener los reportes:", error);
             throw error; 

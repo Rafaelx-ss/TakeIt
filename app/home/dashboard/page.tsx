@@ -12,7 +12,7 @@ export default function Dashboard() {
         <div className="flex flex-col min-h-screen">
             <Header />
             <GRAFICA/>
-            <Footer/>
+            {/* <Footer/> */}
         </div>    
     );
 }

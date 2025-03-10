@@ -7,29 +7,32 @@ import { ReportesService } from "@/services/reportes.service"
 interface ReportModalProps {
   isOpen: boolean;
   onClose: () => void;
-  ID: string;
+  ID: string | number;
   Tipo: string;
   descripcion: string | number;
   detalle: string | number;
   nombreEvento: string;
   nombreUsuario: string;
   fecha: string;
+  status: number;
 }
 
-export default function ReportModal({ isOpen, onClose, ID, Tipo, descripcion, detalle, nombreEvento, nombreUsuario, fecha}: ReportModalProps) {
+export default function ReportModal({ isOpen, onClose, ID, Tipo, descripcion, detalle, nombreEvento, nombreUsuario, fecha, status}: ReportModalProps) {
 
     const [dataReportes, setDataReportes] = useState<Reporte[]>([]);
 
-  useEffect(() => {
-    const fetchdatReportes = async () => {
-          try {
-            const data = await ReportesService.reportesEventos(ID);
-            setDataReportes(data);
-          } catch (error) {
-            console.error('Error al cargar reportes:', error);
-          }
-        };
-  });
+
+  const fetchdatReportes = async () => {
+    try {
+      const isUpdated = await ReportesService.updateReportestatus(ID);
+      if (isUpdated) {
+        onClose();
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error al cargar reportes:', error);
+    }
+  };
 
 
   return (
@@ -54,8 +57,11 @@ export default function ReportModal({ isOpen, onClose, ID, Tipo, descripcion, de
         </div>
 
         <div className="flex justify-between mt-4">
-          <Button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2">Marcar como resuelto</Button>
-          <Button className="bg-blue-600 hover:bg-blue-700 px-4 py-2">Contactar con el usuario</Button>
+
+            {status !== 0 && (
+            <Button onClick={fetchdatReportes}  className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2">Marcar como resuelto</Button>
+            )}
+          {/* <Button className="bg-blue-600 hover:bg-blue-700 px-4 py-2">Contactar con el usuario</Button> */}
         </div>
       </DialogContent>
     </Dialog>

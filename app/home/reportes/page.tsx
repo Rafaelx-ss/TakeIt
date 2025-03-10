@@ -76,8 +76,7 @@ export default function ReportesPage() {
     fetchData();
     setIsLoading(false);    
   }, [usuarioID]); // Agregar usuarioID como dependencia para asegurarte de que se ejecuta cuando cambia
-
-console.log(dataReportes);
+;
 
   const [open, setOpen] = useState(false);
 
@@ -186,13 +185,14 @@ console.log(dataReportes);
                 </TableCell>
                 {selectedReport && (
                   <ReportModal isOpen={open} onClose={() => setOpen(false)} 
-                    ID={usuarioID}
+                    ID={selectedReport.reporteID}
                     Tipo={selectedReport.Tipo}
                     descripcion={selectedReport.descripcion}
                     detalle={selectedReport.detalle}
                     nombreEvento={selectedReport.nombreEvento}
                     nombreUsuario={selectedReport.nombreUsuario}
                     fecha={selectedReport.created_at}
+                    status={selectedReport.activoReporte}
                   />
                 )}
               </TableRow>
