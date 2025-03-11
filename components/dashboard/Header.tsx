@@ -1,7 +1,40 @@
+"use client"; 
+
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { User, Medal, BarChart } from 'lucide-react';
 import { MetricCard } from '@/components/patrocinadores/metric-card';
+import { useEffect, useState } from "react";
+import { DasboardService } from "@/services/dashboard.service";
+import { getUsuario } from '@/context/auth'
+
 const Header = () => {
+
+  const [totalparti, setTotalparti] = useState<number>(0);
+  const [eventosfin, setEventosfin] = useState<number>(0);
+
+  const usuarioID = getUsuario().usuarioID
+  useEffect(() => {
+    const fetchReportes = async () => {
+          try {
+            const data = await DasboardService.totalparticipantes(usuarioID);
+            setTotalparti(data.TotalEventos);
+          } catch (error) {
+            console.error('Error al cargar reportes:', error);
+          }
+    };
+        const fetchcatidad = async () => {
+          try {
+            const data = await DasboardService.cantidadEventosTerminados(usuarioID);
+            console.log(data)
+            setEventosfin(data.cantidadEventosTerminados);
+          } catch (error) {
+            console.error('Error al cargar reportes:', error);
+          } 
+    };
+    fetchReportes();
+    fetchcatidad();
+  }, [usuarioID]);
+
   return (
     <header className="text-white py-6 px-8">
       <div className="mb-6">
@@ -15,7 +48,7 @@ const Header = () => {
             <User className="h-6 w-6 text-dorado" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">200</div>
+            <div className="text-2xl font-bold">{totalparti}</div>
           </CardContent>
         </Card>
 
@@ -25,7 +58,7 @@ const Header = () => {
             <Medal className="h-6 w-6 text-dorado" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2</div>
+            <div className="text-2xl font-bold">{eventosfin}</div>
           </CardContent>
         </Card>
 
@@ -44,3 +77,4 @@ const Header = () => {
 };
 
 export default Header;
+
