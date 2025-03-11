@@ -47,7 +47,7 @@ export const EventosService = {
 
     obtenerEvento: async (eventoID: string): Promise<Evento> => {
         try {
-            const response = await axios.get(`${backend}/api/eventos1/${eventoID}`, {
+            const response = await axios.get(`${backend}/api/eventos/${eventoID}`, {
                 headers: {
                 'Content-Type': 'application/json'
                 }
