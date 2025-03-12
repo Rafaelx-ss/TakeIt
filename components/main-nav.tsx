@@ -21,7 +21,7 @@ export function MainNav() {
           </Link>
           <nav className="hidden md:flex gap-6">
             <Link
-              href="/events"
+              href="/home/eventos"
               className={`text-sm transition-colors hover:text-primary ${
                 pathname === '/events' ? 'text-primary' : 'text-muted-foreground'
               }`}

@@ -20,4 +20,6 @@ export interface Evento {
     estadoEvento?: boolean;
     created_at?: string;
     updated_at?: string;
+    totalParticipantes? : number;
+    totalIngresos? : number;
 }

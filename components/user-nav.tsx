@@ -36,7 +36,7 @@ export function UserNav() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/my-events" className="cursor-pointer flex gap-2">
+          <Link href="/home/eventos" className="cursor-pointer flex gap-2">
             <Calendar className="h-4 w-4" />
             <span>Mis Eventos</span>
           </Link>
