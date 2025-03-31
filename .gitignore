@@ -23,5 +23,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-
+ 
 prisma/schema.prisma
